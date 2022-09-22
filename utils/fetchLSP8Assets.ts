@@ -1,6 +1,6 @@
 import fetchLSP4Metadata from './fetchLSP4Metadata';
 import { L16_RPC_URL, luksoImg } from '../constants';
-import { Lsp8AssetType } from '../contexts/AssetsContext';
+import { AssetType, Lsp8AssetType } from '../contexts/AssetsContext';
 import Web3 from 'web3';
 import LSP8DigitalAsset from '@lukso/lsp-smart-contracts/artifacts/LSP8IdentifiableDigitalAsset.json';
 import { ethers } from 'ethers';
@@ -100,16 +100,18 @@ const createLSP8Object = (
     description,
     image: images[0][0]?.url ? images[0][0].url : luksoImg,
     icon: icons[0]?.url ? icons[0].url : luksoImg,
-    collectionName,
-    collectionSymbol,
-    collectionAddress: assetAddress,
-    collectionDescription: collectionLSP4Metadata.LSP4Metadata.description,
-    collectionImage: collectionLSP4Metadata.LSP4Metadata.images[0][0]?.url
-      ? collectionLSP4Metadata.LSP4Metadata.images[0][0]?.url
-      : luksoImg,
-    collectionIcon: collectionLSP4Metadata.LSP4Metadata.icons[0]?.url
-      ? collectionLSP4Metadata.LSP4Metadata.icons[0]?.url
-      : luksoImg,
+    collection: {
+      name: collectionName,
+      symbol: collectionSymbol,
+      address: assetAddress,
+      description: collectionLSP4Metadata.LSP4Metadata.description,
+      image: collectionLSP4Metadata.LSP4Metadata.images[0][0]?.url
+        ? collectionLSP4Metadata.LSP4Metadata.images[0][0].url
+        : luksoImg,
+      icon: collectionLSP4Metadata.LSP4Metadata.icons[0]?.url
+        ? collectionLSP4Metadata.LSP4Metadata.icons[0].url
+        : luksoImg,
+    },
   };
   return lsp8AssetObject as Lsp8AssetType;
 };

@@ -1,5 +1,8 @@
-import identicon from 'ethereum-blockies-base64';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+
+import { WalletAddressContext } from '../../contexts/WalletAddressContext';
+import { LSPType } from '../../interfaces/lsps';
+import AssetTransferModal from '../AssetTransferModal';
 
 interface Props {
   icon: string;
@@ -7,10 +10,32 @@ interface Props {
   name: string;
   symbol: string;
   address: string;
+  isCreatorLsp7?: boolean; //needed so we dont show the send button
+  vaultAddress?: string; //needed during transfer
+  ownerAddress: string;
 }
 
-const LSP7Card: React.FC<Props> = ({ icon, amount, name, symbol, address }) => {
-  const [showSendBtn, setShowSendBtn] = useState(false);
+const LSP7Card: React.FC<Props> = ({
+  icon,
+  amount,
+  name,
+  symbol,
+  ownerAddress,
+  isCreatorLsp7,
+  vaultAddress,
+  address,
+}) => {
+  const { walletAddress } = useContext(WalletAddressContext);
+
+  const [isTransferModalOpen, setIsTransferModalOpen] =
+    useState<boolean>(false);
+  const [showSendBtn, setShowSendBtn] = useState<boolean>(false);
+
+  const isAssetTransferable = () => {
+    if (!isCreatorLsp7 && ownerAddress === walletAddress) {
+      return true;
+    }
+  };
 
   return (
     <div
@@ -25,23 +50,37 @@ const LSP7Card: React.FC<Props> = ({ icon, amount, name, symbol, address }) => {
           className="object-cover rounded w-full h-full bg-cover bg-repeat bg-center"
         />
       </div>
-      <div className="px-3">
-        <div className="font-ibmpBold text-gray-600 leading-6">{name}</div>
-        <div className="leading-6">{symbol}</div>
-        {/* if amount = 0 it means that this is an issued asset so we dont display the balance */}
-        {amount != 0 && (
-          <div className="text-xs leading-6">{amount} tokens</div>
+      <div className="flex justify-between items-end">
+        <div>
+          <div className="text-sm font-bold text-gray-600 leading-6">
+            {name}
+          </div>
+          <div className="leading-6">{symbol}</div>
+          {amount != 0 && (
+            <div className="text-xs leading-6">{amount} tokens</div>
+          )}
+        </div>
+        {isAssetTransferable() && showSendBtn && (
+          <div className="flex justify-end">
+            <button
+              className="mt-2 border border-red-400 py-1 px-2 text-red-400 rounded h-8 mb-2"
+              onClick={() => setIsTransferModalOpen(true)}
+            >
+              Send
+            </button>
+          </div>
         )}
-        <div className="absolute bottom-[-30%] right-[-30%] rotate-45">
-          <img src={identicon(address)} alt="address identicon" />
-        </div>
       </div>
-      {showSendBtn && (
-        <div className="absolute z-1 top-0 left-0 w-full h-full bg-white bg-opacity-50 flex items-center justify-center">
-          <button className="px-3 py-2 font-bold bg-deepPink rounded text-white">
-            Send
-          </button>
-        </div>
+      {isTransferModalOpen && (
+        <AssetTransferModal
+          assetAddress={address}
+          assetImage={icon}
+          assetType={LSPType.LSP7}
+          ownerAddress={ownerAddress}
+          setIsTransferModalOpen={setIsTransferModalOpen}
+          amount={amount}
+          vaultAddress={vaultAddress}
+        />
       )}
     </div>
   );

@@ -133,20 +133,21 @@ const AddressInput: React.FC<Props> = ({ inputAddress, onChange }) => {
   };
 
   const renderUPInfos = (addressInfos: AddressInfo) => (
-    <div>
+    <div className="mt-2 ml-1">
       <h1>{addressInfos?.LSP3JSON?.LSP3Profile.name}</h1>
       <img
         src={addressAvatar(
           addressInfos.LSP3JSON as LSP3Profile, //checked before render
           addressInfos.address,
         )}
+        className="w-20 h-20 mt-1"
         alt="UP Profile Image"
       />
     </div>
   );
 
   return (
-    <div className="py-8">
+    <>
       <input
         onChange={(e) => {
           fetchAddressInfo(e.target.value);
@@ -156,7 +157,7 @@ const AddressInput: React.FC<Props> = ({ inputAddress, onChange }) => {
         type="text"
         placeholder="Enter an address"
         spellCheck="false"
-        className="bg-darkGray focus:outline-none text-gray-400 focus:shadow-outline  py-2 px-4 block w-[450px] appearance-none leading-normal"
+        className="bg-darkGray focus:outline-none px-3 text-gray-400 focus:shadow-outline rounded-lg py-2 px-4 block w-full appearance-none "
       />
       {addressError && <div className="text-red-500">Invalid address</div>}
       {addressInfos?.isUniversalProfile ? (
@@ -168,7 +169,7 @@ const AddressInput: React.FC<Props> = ({ inputAddress, onChange }) => {
           Address is not a Universal Profile nor Vault
         </div>
       )}
-    </div>
+    </>
   );
 };
 

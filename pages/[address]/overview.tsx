@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { ethers } from 'ethers';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import erc725Schema from '@erc725/erc725.js/schemas/LSP3UniversalProfileMetadata.json';
 
@@ -14,7 +14,6 @@ import Vaults from '../../components/Vaults/Vaults';
 import ReceivedAssets from '../../components/ReceivedAssets';
 import useWeb3Provider from '../../hooks/useWeb3Provider';
 import CreatedAssets from '../../components/CreatedAssets';
-import AddressInput from '../../components/AddressInput';
 
 const config = { ipfsGateway: IPFS_GATEWAY_BASE_URL };
 
@@ -82,13 +81,10 @@ const AdressOverview: NextPage = () => {
       ) : (
         <div />
       )}
+
       <CreatedAssets
         isUniversalProfile={isUniversalProfile}
         ownerAddress={address}
-      />
-      <AddressInput
-        inputAddress="0x"
-        onChange={(newAddressInfos) => console.log(newAddressInfos)}
       />
       <ReceivedAssets
         isUniversalProfile={isUniversalProfile}

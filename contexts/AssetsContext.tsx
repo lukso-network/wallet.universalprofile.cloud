@@ -1,11 +1,15 @@
 import { createContext, useState } from 'react';
+import { LSPType } from '../interfaces/lsps';
 
 export type Lsp7AssetType = {
   name: string;
   symbol: string;
   icon: string;
   amount: number;
-  address: string;
+};
+
+export type Lps7AssetsType = {
+  [address: string]: Lsp7AssetType;
 };
 
 export type Lsp8AssetType = {
@@ -13,33 +17,48 @@ export type Lsp8AssetType = {
   icon: string;
   tokenId: string;
   description: string;
-  collectionName: string;
-  collectionDescription: string;
-  collectionImage: string;
-  collectionIcon: string;
-  collectionAddress: string;
+  collection: {
+    name: string;
+    description: string;
+    image: string;
+    icon: string;
+    address: string;
+  };
 };
 
-export type VaultsAssetsType = {
-  lsp7Assets: Lsp7AssetType[];
-  lsp8Assets: Lsp8AssetType[];
+export type Lps8AssetsType = {
+  [address: string]: Lsp8AssetType;
+};
+
+export type AssetType = {
+  type: LSPType.LSP7 | LSPType.LSP8;
+  tokenIdOrAmount: number | string;
+  address: string;
+};
+
+export type VaultType = {
   vaultAddress: string;
+  assets: AssetType[];
 };
 
 interface AssetsContextInterface {
-  lsp7Assets: Lsp7AssetType[];
-  setLsp7Assets: React.Dispatch<React.SetStateAction<Lsp7AssetType[]>>;
-  lsp8Assets: Lsp8AssetType[];
-  setLsp8Assets: React.Dispatch<React.SetStateAction<Lsp8AssetType[]>>;
-  vaultsAssets: VaultsAssetsType[];
-  setVaultsAssets: React.Dispatch<React.SetStateAction<VaultsAssetsType[]>>;
+  lsp7Assets: Lps7AssetsType;
+  setLsp7Assets: React.Dispatch<React.SetStateAction<Lps7AssetsType>>;
+  lsp7UPAssets: AssetType[];
+  setLsp7UPAssets: React.Dispatch<React.SetStateAction<AssetType[]>>;
+  lsp8Assets: Lps8AssetsType;
+  setLsp8Assets: React.Dispatch<React.SetStateAction<Lps8AssetsType>>;
+  vaultsAssets: VaultType[];
+  setVaultsAssets: React.Dispatch<React.SetStateAction<VaultType[]>>;
 }
 
 const initalContext = {
-  lsp7Assets: [],
-  setLsp7Assets: () => [],
-  lsp8Assets: [],
-  setLsp8Assets: () => [],
+  lsp7Assets: {},
+  setLsp7Assets: () => {},
+  lsp7UPAssets: [],
+  setLsp7UPAssets: () => [],
+  lsp8Assets: {},
+  setLsp8Assets: () => {},
   vaultsAssets: [],
   setVaultsAssets: () => [],
 };
@@ -52,10 +71,12 @@ interface Props {
 }
 
 const AssetsProvider: React.FC<Props> = ({ children }) => {
-  const [lsp7Assets, setLsp7Assets] = useState<Lsp7AssetType[]>([]);
-  const [lsp8Assets, setLsp8Assets] = useState<Lsp8AssetType[]>([]);
+  const [lsp7Assets, setLsp7Assets] = useState<Lps7AssetsType>({});
+  const [lsp7UPAssets, setLsp7UPAssets] = useState<AssetType[]>([]);
 
-  const [vaultsAssets, setVaultsAssets] = useState<VaultsAssetsType[]>([]);
+  const [lsp8Assets, setLsp8Assets] = useState<Lps8AssetsType>({});
+
+  const [vaultsAssets, setVaultsAssets] = useState<VaultType[]>([]);
 
   return (
     <AssetsContext.Provider
@@ -66,6 +87,8 @@ const AssetsProvider: React.FC<Props> = ({ children }) => {
         setLsp8Assets,
         vaultsAssets,
         setVaultsAssets,
+        lsp7UPAssets,
+        setLsp7UPAssets,
       }}
     >
       {children}
