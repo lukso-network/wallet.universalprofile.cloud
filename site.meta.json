@@ -1,0 +1,53 @@
+{
+  "title": "LUKSO Universal Profile Wallet",
+  "link": [
+    { "rel": "icon", "type": "image/png", "href": "/images/favicon.png" },
+    {
+      "rel": "apple-touch-icon",
+      "sizes": "180x180",
+      "href": "/images/apple-touch-icon.png"
+    }
+  ],
+  "meta": [
+    {
+      "name": "description",
+      "content": "View all your assets in one place as well as send and receive tokens to other Universal Profile users."
+    },
+    {
+      "property": "og:url",
+      "content": "https://wallet.universalprofile.cloud"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:title",
+      "content": "LUKSO Universal Profile Wallet"
+    },
+    {
+      "property": "og:description",
+      "content": "View all your assets in one place as well as send and receive tokens to other Universal Profile users."
+    },
+    {
+      "property": "og:image",
+      "content": "https://wallet.universalprofile.cloud/images/social-share.jpg"
+    },
+    {
+      "name": "twitter:card",
+      "content": "summary_large_image"
+    },
+    {
+      "name": "twitter:domain",
+      "content": "wallet.universalprofile.cloud"
+    },
+    {
+      "name": "twitter:title",
+      "content": "LUKSO Universal Profile Wallet"
+    },
+    {
+      "name": "twitter:description",
+      "content": "View all your assets in one place as well as send and receive tokens to other Universal Profile users."
+    }
+  ]
+}

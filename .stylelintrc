@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-recommended-vue/scss",
+    "stylelint-prettier/recommended"
+  ],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "scss/at-import-partial-extension": "always",
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
+    "at-rule-no-unknown": null
+  }
+}

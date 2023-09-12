@@ -1,0 +1,113 @@
+name: Lint, Test, Build
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+      - 'develop'
+  push:
+    branches:
+      - 'main'
+      - 'develop'
+
+env:
+  CF_PROJECT_NAME: wallet-universalprofile-cloud
+  CF_BASE_URL: wallet-universalprofile-cloud
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.17.0'
+          cache: 'yarn'
+
+      - name: ⚙️ Install dependencies
+        run: yarn install
+
+      - name: 🎨 Lint
+        run: yarn lint
+
+      - name: 🛠 Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: 🎯 Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: |
+          PR_NUMBER="${{ github.event.number }}"
+          if [ -n "$PR_NUMBER" ]
+          then
+            echo "branch_name=pr-${PR_NUMBER}" >> $GITHUB_OUTPUT
+            echo "url=https://pr-${PR_NUMBER}.${{ env.CF_BASE_URL }}.pages.dev" >> $GITHUB_OUTPUT
+          else
+            if [ "${{ github.ref }}" = "refs/heads/develop" ]
+            then
+              echo "branch_name=develop" >> $GITHUB_OUTPUT
+              echo "url=https://develop.${{ env.CF_BASE_URL }}.pages.dev" >> $GITHUB_OUTPUT
+            else
+              echo "branch_name=" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+        id: extract_branch
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.17.0'
+          cache: 'yarn'
+
+      - name: Install
+        run: yarn install
+
+      - name: Build
+        run: yarn run pages:build
+
+      - name: 'Deploy release'
+        if: ${{ steps.extract_branch.outputs.branch_name == '' }}
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy --project-name "${{ env.CF_PROJECT_NAME }}" dist
+
+      - name: Deploy ${{ steps.extract_branch.outputs.branch_name }} (PR)
+        if: ${{ steps.extract_branch.outputs.branch_name != '' }}
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy --project-name "${{ env.CF_PROJECT_NAME }}" dist --branch "${{ steps.extract_branch.outputs.branch_name }}" | tee output.log
+          postCommands: |
+            sed < output.log -n 's#.*Take a peek over at \(.*\)$#specific_url=\1#p' >> $GITHUB_OUTPUT
+        id: deploy
+
+      - name: Create commit comment
+        uses: mshick/add-pr-comment@v2
+        if: ${{ steps.extract_branch.outputs.branch_name != '' }}
+        with:
+          message: |
+            ### Deployed with **Cloudflare Pages** :cloud: :rocket: :ok:
+            - **URL**: [${{ steps.extract_branch.outputs.url }}](${{ steps.extract_branch.outputs.url }})
+            - **Specific**: [${{ steps.deploy.outputs.specific_url }}](${{ steps.deploy.outputs.specific_url }})

@@ -1,0 +1,7 @@
+/dist
+/.nuxt
+/.output
+/public/assets/fonts
+/functions
+/translations/
+/.yarn

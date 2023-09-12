@@ -1,0 +1,9 @@
+{
+  "token": "YATA_API_TOKEN",
+  "project": "WWlzZndNK2JSbmNzUEhkNHFNNE1XWFhoTmtNWkJOZzRqR25FejJkSm9sOD0=",
+  "locales": ["en_US"],
+  "format": "json",
+  "root": false,
+  "outputPath": "./translations",
+  "strip_empty": true
+}
