@@ -3,10 +3,7 @@ import { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 
 import { fetchProfile } from '@/utils/fetchProfile'
 import { PROVIDERS, STORAGE_KEY } from '@/types/enums'
-import {
-  CONNECTION_EXPIRY_CHECK_INTERVAL_MS,
-  INJECTED_PROVIDER,
-} from '@/shared/config'
+import { CONNECTION_EXPIRY_CHECK_INTERVAL_MS } from '@/shared/config'
 import { assertString } from '@/utils/validators'
 
 if (typeof window !== 'undefined') {
@@ -27,8 +24,7 @@ const setupTranslations = () => {
 }
 
 const setupWeb3Instances = () => {
-  const provider = INJECTED_PROVIDER
-
+  const provider = web3Store.getWeb3(PROVIDERS.INJECTED) as any
   if (provider) {
     // for chain interactions through wallet
     web3Store.addWeb3(PROVIDERS.INJECTED, provider)
