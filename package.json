@@ -18,7 +18,7 @@
     "lint:fmt": "prettier --check --log-level=warn .",
     "lint:fmt:fix": "prettier --write .",
     "lint:types": "tsc --noEmit --project tsconfig.json",
-    "prepare": "husky install",
+    "prepare": "npm-run-all nuxt:prepare typechain && husky install",
     "yata-fetch": "dotenv -- yata-fetch --config .yata.json",
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
@@ -87,6 +87,11 @@
     "web3": "~1.10.3",
     "web3-utils": "~1.10.3",
     "yata-fetch": "2.1.5"
+  },
+  "resolutions": {
+    "web3-bzz": "~1.10.3",
+    "web3-shh": "~1.10.3",
+    "web3": "~1.10.3"
   },
   "lint-staged": {
     "*.{ts,js,vue}": [

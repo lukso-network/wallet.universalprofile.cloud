@@ -1,3 +1,5 @@
+import { toWei } from 'web3-utils'
+
 import { NetworkInfo } from '@/types/network'
 
 // chain id's
@@ -13,7 +15,7 @@ export const NETWORKS: NetworkInfo[] = [
     rpcHttp: 'https://rpc.testnet.lukso.network',
     token: {
       symbol: 'LYXt',
-      supply: '42000000000000000000000000',
+      supply: toWei('42000000', 'ether'),
       name: 'LUKSO',
     },
     indexName: 'prod_testnet_universal_profiles',
@@ -24,7 +26,7 @@ export const NETWORKS: NetworkInfo[] = [
     rpcHttp: 'https://rpc.mainnet.lukso.network',
     token: {
       symbol: 'LYX',
-      supply: '42000000000000000000000000',
+      supply: toWei('42000000', 'ether'),
       name: 'LUKSO',
     },
     indexName: 'prod_mainnet_universal_profiles',
