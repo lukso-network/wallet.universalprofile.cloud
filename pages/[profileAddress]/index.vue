@@ -3,7 +3,6 @@ import { LSP4_TOKEN_TYPES } from '@lukso/lsp-smart-contracts'
 
 const { assetFilter } = storeToRefs(useAppStore())
 const viewedProfileAddress = getCurrentProfileAddress()
-const { isMobile } = useDevice()
 
 const viewedProfile = useProfile().getProfile(viewedProfileAddress)
 const allTokens = useProfileAssets()(viewedProfileAddress)
@@ -108,26 +107,32 @@ const isLoadingAssets = computed(() =>
       <ProfileCard />
       <ProfileDetails />
       <div>
-        <div class="grid grid-cols-2 gap-4 pt-10 sm:flex">
-          <lukso-button
-            size="small"
-            variant="secondary"
-            :is-active="assetFilter === AssetFilter.owned ? true : undefined"
-            :is-full-width="isMobile ? true : undefined"
-            :count="ownedAssetsCount"
-            @click="assetFilter = AssetFilter.owned"
-            >{{ $formatMessage('asset_filter_owned_assets') }}</lukso-button
-          >
-          <lukso-button
-            size="small"
-            variant="secondary"
-            :is-active="assetFilter === AssetFilter.created ? true : undefined"
-            :is-full-width="isMobile ? true : undefined"
-            :count="createdAssetsCount"
-            @click="assetFilter = AssetFilter.created"
-            >{{ $formatMessage('asset_filter_created_assets') }}</lukso-button
-          >
-        </div>
+        <ul class="grid grid-cols-2 gap-4 pt-10 sm:flex">
+          <li>
+            <lukso-button
+              size="small"
+              variant="secondary"
+              :is-active="assetFilter === AssetFilter.owned ? true : undefined"
+              is-full-width
+              :count="ownedAssetsCount"
+              @click="assetFilter = AssetFilter.owned"
+              >{{ $formatMessage('asset_filter_owned_assets') }}</lukso-button
+            >
+          </li>
+          <li>
+            <lukso-button
+              size="small"
+              variant="secondary"
+              :is-active="
+                assetFilter === AssetFilter.created ? true : undefined
+              "
+              is-full-width
+              :count="createdAssetsCount"
+              @click="assetFilter = AssetFilter.created"
+              >{{ $formatMessage('asset_filter_created_assets') }}</lukso-button
+            >
+          </li>
+        </ul>
 
         <div v-if="hasEmptyCreators" class="pt-8">
           <h3 class="heading-inter-17-semi-bold pb-2">

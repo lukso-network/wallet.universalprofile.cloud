@@ -85,7 +85,7 @@ export const useAppStore = defineStore(
   },
   {
     persist: {
-      paths: ['connectedProfileAddress', 'assetFilter', 'selectedChainId'],
+      paths: ['connectedProfileAddress', 'selectedChainId'],
       key: STORAGE_KEY.APP_STORE,
     },
   }

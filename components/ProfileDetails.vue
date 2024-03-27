@@ -38,7 +38,7 @@ const hasTags = computed(
     </div>
     <ul
       v-if="hasLinks"
-      class="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-2"
+      class="mt-3 flex flex-col flex-wrap justify-center gap-x-4 gap-y-2 sm:flex-row"
     >
       <li
         v-for="(link, index) in viewedProfile?.links"
@@ -51,6 +51,7 @@ const hasTags = computed(
           is-link
           variant="secondary"
           class="transition hover:opacity-70"
+          is-full-width
           >{{ link.title }}
           <lukso-icon name="link-3" size="small" class="ml-2"></lukso-icon>
         </lukso-button>
