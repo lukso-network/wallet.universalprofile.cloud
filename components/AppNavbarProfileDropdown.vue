@@ -25,7 +25,11 @@ const handleOutsideDropdown = (event: Event) => {
   isOpen.value = false
 }
 
-onMounted(async () => {
+const handleNavigateRelayerDashboard = () => {
+  window.open(relayerDappDashboardUrl(), '_self')
+}
+
+onMounted(() => {
   window.addEventListener('click', handleOutsideDropdown)
 })
 
@@ -49,6 +53,16 @@ onUnmounted(() => {
       class="absolute right-0 z-[1000] mt-8 animate-fade-in select-none rounded-12 bg-neutral-100 shadow-pink-drop-shadow animation-duration-150 before:absolute before:right-0 before:top-0 before:-mt-1 before:mr-4 before:size-3 before:rotate-45 before:bg-neutral-100"
       :class="isOpen ? 'block' : 'hidden'"
     >
+      <lukso-button
+        variant="text"
+        custom-class="text-12 nav-apax-12-medium-uppercase"
+        class="group"
+        @click="handleNavigateRelayerDashboard"
+      >
+        <span class="text-purple-63 transition group-hover:text-purple-41">
+          {{ $formatMessage('header_relayer_dashboard') }}
+        </span>
+      </lukso-button>
       <lukso-button
         variant="text"
         custom-class="text-12 nav-apax-12-medium-uppercase"

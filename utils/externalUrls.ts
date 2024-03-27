@@ -24,6 +24,7 @@ export const explorerContractUrl = (address?: string | Address) => {
 
 /**
  * URL to Discovery dApp aka. universalprofile.cloud
+ *
  * @returns
  */
 export const discoveryDappUrl = () => {
@@ -62,4 +63,15 @@ export const transakBuyLyxUrl = () => {
     .join('&')
 
   return `${TRANSAK_HOST}/?${queryParamsString}`
+}
+
+/**
+ * URL to Relayer dashboard on my.universalprofile.cloud
+ *
+ * @returns
+ */
+export const relayerDappDashboardUrl = () => {
+  const { currentNetwork } = storeToRefs(useAppStore())
+
+  return `${BASE_RELAYER_DAPP_URL}/dashboard?network=${currentNetwork.value.id}`
 }

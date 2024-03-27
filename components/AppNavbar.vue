@@ -73,16 +73,6 @@ const browserSupportExtension = extensionStore.url !== ''
     @on-icon-click="handleNavigateProfile"
   >
     <div class="flex items-center justify-end" slot="desktop-menu">
-      <lukso-button
-        variant="text"
-        custom-class="text-12 nav-apax-12-medium-uppercase"
-        class="group"
-        @click="handleNavigationDiscovery"
-      >
-        <span class="text-purple-63 transition group-hover:text-purple-41">
-          {{ $formatMessage('header_discovery') }}
-        </span>
-      </lukso-button>
       <AppNavbarSendButton v-if="isConnected" />
       <lukso-button
         v-if="isConnected"
@@ -128,16 +118,6 @@ const browserSupportExtension = extensionStore.url !== ''
     </div>
     <div slot="mobile-menu">
       <div className="flex flex-col items-center justify-center h-screen pb-32">
-        <lukso-button
-          variant="text"
-          custom-class="text-12 nav-apax-12-medium-uppercase"
-          class="group"
-          @click="handleNavigationDiscovery"
-        >
-          <span class="text-purple-63 transition group-hover:text-purple-41">
-            {{ $formatMessage('header_discovery') }}
-          </span>
-        </lukso-button>
         <lukso-button
           v-if="isConnected"
           variant="text"

@@ -56,6 +56,9 @@ export const SEARCH_RESULTS_LIMIT = 100
 // base universalprofile address
 export const BASE_UP_CLOUD_URL = 'https://universalprofile.cloud'
 
+// base universalprofile address
+export const BASE_RELAYER_DAPP_URL = 'https://my.universalprofile.cloud'
+
 // base wallet address
 export const BASE_WALLET_URL = 'https://wallet.universalprofile.cloud'
 
