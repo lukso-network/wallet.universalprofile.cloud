@@ -1,6 +1,8 @@
 import { toWei } from 'web3-utils'
 
 export const useNetworkConfig = (): NetworkInfo[] => {
+  const config = useRuntimeConfig()
+
   return [
     {
       id: 'testnet',
@@ -25,6 +27,15 @@ export const useNetworkConfig = (): NetworkInfo[] => {
       name: 'LUKSO Mainnet',
       chainId: MAINNET_CHAIN_ID,
       rpcNodes: [
+        {
+          host: 'https://lukso.nownodes.io',
+          headers: [
+            {
+              name: 'api-key',
+              value: config.public.NOW_NODES_MAINNET_API_KEY,
+            },
+          ],
+        },
         {
           host: 'https://rpc1.mainnet.lukso.dev',
         },
