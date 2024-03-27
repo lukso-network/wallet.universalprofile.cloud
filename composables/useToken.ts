@@ -179,7 +179,7 @@ export function useToken() {
         const tokenIdCreatorsCount = results[3]?.data || 0
         const tokenIdsOf = results[3]?.data as string[]
         const referenceContract = results[4]?.data as any
-        const lsp7Creators = results[5]?.data as string[]
+        const lsp7Creators = results[5]?.data as Address[]
 
         const _assetData = results[6]?.data as any
         const forTokenData = results[7]?.data as any

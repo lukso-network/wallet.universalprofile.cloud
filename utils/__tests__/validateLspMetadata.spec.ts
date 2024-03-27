@@ -7,6 +7,7 @@ import {
   validateName,
   validateDescription,
   validateImages,
+  validateVerification,
 } from '../validateLspMetadata'
 import { expect, test, describe } from 'vitest'
 
@@ -305,4 +306,20 @@ test('validateDescription', async () => {
   ).toEqual(
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut a'
   )
+})
+
+test('validateVerification', async () => {
+  expect(validateVerification(undefined)).toEqual(undefined)
+  expect(validateVerification({})).toEqual(undefined)
+  expect(
+    validateVerification({ value: { verification: { method: '0x' } } })
+  ).toEqual(undefined)
+  expect(
+    validateVerification({ value: { verification: { data: '0x' } } })
+  ).toEqual(undefined)
+  expect(
+    validateVerification({
+      value: { verification: { method: '0x', data: '0x' } },
+    })
+  ).toEqual({ method: '0x', data: '0x' })
 })

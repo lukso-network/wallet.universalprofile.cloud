@@ -1,4 +1,4 @@
-import { LSP4_TOKEN_TYPES } from '@lukso/lsp-smart-contracts'
+import { LSP4_TOKEN_TYPES } from '@lukso/lsp4-contracts'
 
 /**
  * Check if passed asset is LYX token

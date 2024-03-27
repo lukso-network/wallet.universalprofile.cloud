@@ -8,7 +8,7 @@ import {
   isLsp8,
   hasTokenId,
 } from '../assetChecks'
-import { LSP4_TOKEN_TYPES } from '@lukso/lsp-smart-contracts'
+import { LSP4_TOKEN_TYPES } from '@lukso/lsp4-contracts'
 
 describe('isLyx', () => {
   test('should return true if the asset is a LYX', async () => {

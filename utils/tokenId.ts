@@ -1,4 +1,4 @@
-import { LSP8_TOKEN_ID_FORMAT } from '@lukso/lsp-smart-contracts'
+import { LSP8_TOKEN_ID_FORMAT } from '@lukso/lsp8-contracts'
 import { hexToNumber, hexToUtf8 } from 'web3-utils'
 import { sliceAddress } from '@lukso/web-components/tools'
 
@@ -65,9 +65,9 @@ export const prefixedTokenId = (
   // for other (hex) types we add ... in the middle
   if (isStringFormat(tokenIdFormat) || isNumberFormat(tokenIdFormat)) {
     return `${parsedTokenId.substring(0, maxLength - 3)}...`
-  } else {
-    return sliceAddress(parsedTokenId, Math.ceil((maxLength - 5) / 2))
   }
+
+  return sliceAddress(parsedTokenId, Math.ceil((maxLength - 5) / 2))
 }
 
 /**

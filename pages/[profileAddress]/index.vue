@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { LSP4_TOKEN_TYPES } from '@lukso/lsp-smart-contracts'
-
+import { LSP4_TOKEN_TYPES } from '@lukso/lsp4-contracts'
+44
 const { assetFilter } = storeToRefs(useAppStore())
 const viewedProfileAddress = getCurrentProfileAddress()
 const { isMobile } = useDevice()
