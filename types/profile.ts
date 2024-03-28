@@ -18,6 +18,8 @@ export type Profile = {
   profileImage?: Image[]
   backgroundImage?: Image[]
   isLoading?: boolean
+  link: string
+  resolved: string
 }
 
 export type IndexedProfile = {

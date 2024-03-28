@@ -50,7 +50,14 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
               refetchInterval: 120_000,
               staleTime: 250,
             }),
-            // 4-9
+            {
+              // 4
+              queryKey: ['profileResolve', chainId, profileAddress],
+              queryFn: async () => {
+                return await resolveProfile(profileAddress)
+              },
+            },
+            // 5-10
             ...interfacesToCheck.map(({ interfaceId }) =>
               queryCallContract({
                 chainId,
@@ -77,13 +84,15 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
       const profileData = results[1].data as LSP3ProfileMetadataJSON
       const receivedAssets = results[2].data as Address[]
       const issuedAssets = results[3].data as Address[]
+      const { link, resolved } =
+        (results[4].data as { link: string; resolved: string }) || {}
       const { supportsInterfaces, standard } = interfacesToCheck.reduce(
         (
           { supportsInterfaces, standard },
           { interfaceId, standard: _standard },
           index
         ) => {
-          const supports = results[index + 4].data as boolean
+          const supports = results[index + 5].data as boolean
           supportsInterfaces[interfaceId] = supports
           if (supports) {
             standard = _standard
@@ -112,6 +121,8 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
         links,
         description,
         tags,
+        link,
+        resolved,
       } as Profile
       if (!profile.isLoading && profileLog.enabled) {
         profileLog('profile', profile)
