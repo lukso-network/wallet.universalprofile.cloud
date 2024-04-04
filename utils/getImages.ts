@@ -3,6 +3,7 @@ import { bytesToHex, keccak256 } from 'web3-utils'
 import { LUKSO_PROXY_API } from '@/shared/config'
 
 import type { Image } from '@/types/image'
+import { emitWarning } from 'process'
 
 const weakMap = new WeakMap<Image, MaybeRef<Image | null>>()
 
@@ -106,6 +107,21 @@ export const getOptimizedImage = (
     if (promise.value === null && verified == null) {
       ;(async () => {
         if (verified == null && url?.startsWith(LUKSO_PROXY_API)) {
+          let cache: Cache | undefined = undefined
+          try {
+            cache = await caches.open(VERIFY_IMAGE_CACHE_NAME)
+            const imageResponse = await cache.match(url)
+            if (imageResponse) {
+              const isVerified = imageResponse.headers.get('x-verified')
+              promise.value =
+                isVerified != null
+                  ? isVerified === 'true'
+                    ? 'verified'
+                    : 'invalid'
+                  : 'unverified'
+              return
+            }
+          } catch {}
           const request = await fetch(url, { method: 'HEAD' })
             .then(response => (response.ok ? response : null))
             .catch(() => null)
@@ -116,6 +132,9 @@ export const getOptimizedImage = (
                 ? 'verified'
                 : 'invalid'
               : 'unverified'
+          try {
+            await cache?.put(url, request?.clone() || new Response('Ok'))
+          } catch {}
         } else if (
           verification?.method != null &&
           verification?.method !== '0x00000000' &&

@@ -26,16 +26,40 @@ export const useOptimizedImages = (
   images: MaybeRef<Image[][] | null>,
   width: number
 ): Ref<Array<{ optimized: ImageItem | null; original: Image[] | null }>> => {
+  const imagesOriginal = ref<Array<Image[]>>([])
+  const imagesFinal = ref<(ImageItem | null)[]>([])
   return computed(() => {
-    return (
-      unref(images)?.map(image => {
-        const url = getOptimizedImage(image, width)
-        return {
-          optimized: unref(url),
-          original: image,
+    unref(images)?.map((image, index) => {
+      if (
+        !imagesOriginal.value[index] ||
+        imagesOriginal.value[index].some(
+          (imageItem, index) =>
+            imageItem.url !== image[index].url ||
+            imageItem?.verification?.data != image[index].verification?.data
+        )
+      ) {
+        imagesOriginal.value[index] = image
+        imagesFinal.value[index] = null
+      }
+      if (imagesOriginal.value[index].length > image.length) {
+        imagesOriginal.value.length = image.length
+      }
+      imagesFinal.value = imagesOriginal.value[index].map(
+        (imageItem, index) => {
+          const oldImageItem = imagesFinal.value[index]
+          if (!oldImageItem) {
+            return getOptimizedImage(image, width).value
+          }
+          return oldImageItem
         }
-      }) || []
-    )
+      )
+    })
+    return imagesOriginal.value?.map((image, index) => {
+      return {
+        optimized: unref(imagesFinal.value[index]),
+        original: image,
+      }
+    })
   })
 }
 

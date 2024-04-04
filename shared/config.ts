@@ -30,6 +30,7 @@ export const LUKSO_PROXY_API = 'https://api.universalprofile.cloud'
 
 // the hashed image cache name
 export const HASHED_IMAGE_CACHE_NAME = 'hashed-images'
+export const VERIFY_IMAGE_CACHE_NAME = 'verify-images'
 
 // url of the ipfs gateway
 export const IPFS_URL = `${LUKSO_PROXY_API}/ipfs/`
