@@ -120,14 +120,20 @@
     "web3": "~1.10.3"
   },
   "lint-staged": {
-    "*.{ts,js,vue}": ["prettier --list-different", "eslint"],
+    "*.{ts,js,vue}": [
+      "prettier --list-different",
+      "eslint"
+    ],
     "*.json": "prettier --list-different",
     "*.ya?ml": "prettier --list-different",
-    "*.{scss,css,vue}": ["prettier --list-different", "stylelint"]
+    "*.{scss,css,vue}": [
+      "prettier --list-different",
+      "stylelint"
+    ]
   },
   "version": "1.0.0",
   "dependencies": {
-    "@erc725/erc725.js": "./erc725-erc725.js-0.23.0.tgz",
+    "@erc725/erc725.js": "^0.24.1",
     "@tanstack/query-async-storage-persister": "^5.25.0",
     "@tanstack/query-core": "^5.25.0",
     "@tanstack/query-persist-client-core": "^5.25.0",
