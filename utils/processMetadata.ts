@@ -1,13 +1,12 @@
 // YOU CANNOT IMPORT ANYTHING WHICH USES Buffer or so.
 
-import debug from 'debug'
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 import { Buffer } from 'buffer'
+import debug from 'debug'
 
 import {
-  TANSTACK_GC_TIME,
-  LUKSO_PROXY_API,
   HASHED_IMAGE_CACHE_NAME,
+  LUKSO_PROXY_API,
+  TANSTACK_GC_TIME
 } from '@/shared/config'
 
 const workersLog = debug('tanstack:workers')
@@ -19,7 +18,7 @@ export async function processMetadata(
 ): Promise<any> {
   if (Array.isArray(data)) {
     return Promise.all(
-      data.map(data => processMetadata(data, keccak256, prefix))
+      data.map((data) => processMetadata(data, keccak256, prefix))
     )
   }
   if (data != null && typeof data === 'object') {
@@ -43,7 +42,7 @@ export async function processMetadata(
             ...(verified != null
               ? { verification: { ...data.verification, verified } }
               : {}),
-            url: `${prefix}${hash}`,
+            url: `${prefix}${hash}`
           }
         }
         // Fake entries must be cached for TANSTACK_GC_TIME
@@ -55,8 +54,10 @@ export async function processMetadata(
               'Content-Type': mime,
               'X-Verified':
                 verified != null ? (verified ? 'true' : 'false') : '',
-              'Cache-Control': `public, max-age=${Math.round(TANSTACK_GC_TIME / 1000) + 60}, immutable`,
-            },
+              'Cache-Control': `public, max-age=${
+                Math.round(TANSTACK_GC_TIME / 1000) + 60
+              }, immutable`
+            }
           })
         )
         return {
@@ -64,7 +65,7 @@ export async function processMetadata(
           ...(verified != null
             ? { verification: { ...data.verification, verified } }
             : {}),
-          url: `${prefix}${hash}`,
+          url: `${prefix}${hash}`
         }
       }
     }
@@ -74,13 +75,16 @@ export async function processMetadata(
     ) {
       const queryParams = {
         method: data.verification?.method || '0x00000000',
-        data: data.verification?.data || '0x',
+        data: data.verification?.data || '0x'
       }
       const queryParamsString = Object.entries(queryParams)
         .map(([key, value]) => `${key}=${value}`)
         .join('&')
 
-      const newUrl = `${LUKSO_PROXY_API}/image/${data.url.replaceAll(/^ipfs:\/\/|\?.*?$/g, '')}?${queryParamsString}`
+      const newUrl = `${LUKSO_PROXY_API}/image/${data.url.replaceAll(
+        /^ipfs:\/\/|\?.*?$/g,
+        ''
+      )}?${queryParamsString}`
       const cache = await caches.open(HASHED_IMAGE_CACHE_NAME)
       const imageResponse = await cache.match(newUrl)
       const verified = imageResponse?.headers.get('x-verified')
@@ -90,17 +94,17 @@ export async function processMetadata(
         ...(verified != null
           ? {
               ...data.verification,
-              verified: verified === 'true',
+              verified: verified === 'true'
             }
-          : {}),
+          : {})
       }
     }
     return Promise.all(
       Object.entries(data).map(async ([key, value]) => [
         key,
-        await processMetadata(value, keccak256, prefix),
+        await processMetadata(value, keccak256, prefix)
       ])
-    ).then(entries => Object.fromEntries(entries))
+    ).then((entries) => Object.fromEntries(entries))
   }
   return data
 }
@@ -121,9 +125,9 @@ export async function browserProcessMetadata(
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  }).then(async response => {
+      Accept: 'application/json'
+    }
+  }).then(async (response) => {
     if (
       response.status !== 200 ||
       response.headers.get('Content-Type') !== 'application/json'

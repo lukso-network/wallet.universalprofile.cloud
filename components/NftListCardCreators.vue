@@ -29,7 +29,7 @@ const issued = useIssuedAssets().validateAssets(creators, assetAddress)
 
 const verifyStatus = computed<VerifyStatus>(() => {
   const array = Array.from(issued.value?.values() || [])
-  const hasSome = array?.some(info => info)
+  const hasSome = array?.some((info) => info)
   if (!hasSome) {
     return 'unverified'
   }

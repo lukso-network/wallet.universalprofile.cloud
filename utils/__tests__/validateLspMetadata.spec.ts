@@ -1,14 +1,14 @@
+import { describe, expect, test } from 'vitest'
 import {
-  validateAttributes,
-  validateLinks,
   validateAssets,
-  validateIcon,
-  validateTags,
-  validateName,
+  validateAttributes,
   validateDescription,
+  validateIcon,
   validateImages,
+  validateLinks,
+  validateName,
+  validateTags
 } from '../validateLspMetadata'
-import { expect, test, describe } from 'vitest'
 
 test('validateAttribute', () => {
   expect(validateAttributes([])).toEqual([])
@@ -21,37 +21,37 @@ test('validateAttribute', () => {
         test: '123',
         key: 'size',
         value: 123,
-        type: 'number',
-      },
+        type: 'number'
+      }
     ])
   ).toEqual([
     {
       test: '123',
       key: 'size',
       value: 123,
-      type: 'number',
-    },
+      type: 'number'
+    }
   ])
 
   // when at least one valid
   expect(
     validateAttributes([
       {
-        value: 123,
-      },
+        value: 123
+      }
     ])
   ).toEqual([
     {
-      value: 123,
-    },
+      value: 123
+    }
   ])
 
   // when invalid attributes are present
   expect(
     validateAttributes([
       {
-        test: '123',
-      },
+        test: '123'
+      }
     ])
   ).toEqual([])
 })
@@ -65,16 +65,16 @@ describe('validateImages', () => {
           height: 656,
           url: 'https://example.com/image.png',
           hash: '0x123',
-          hashFunction: 'keccak256',
+          hashFunction: 'keccak256'
         },
         {
           width: 123,
           height: 456,
           url: 'https://example.com/image.png',
           hash: '0x123',
-          hashFunction: 'keccak256',
-        },
-      ],
+          hashFunction: 'keccak256'
+        }
+      ]
     ])
     expect(result).toEqual([
       [
@@ -83,16 +83,16 @@ describe('validateImages', () => {
           height: 656,
           url: 'https://example.com/image.png',
           hash: '0x123',
-          hashFunction: 'keccak256',
+          hashFunction: 'keccak256'
         },
         {
           width: 123,
           height: 456,
           url: 'https://example.com/image.png',
           hash: '0x123',
-          hashFunction: 'keccak256',
-        },
-      ],
+          hashFunction: 'keccak256'
+        }
+      ]
     ])
   })
 
@@ -101,16 +101,16 @@ describe('validateImages', () => {
       [
         {
           width: 223,
-          height: 656,
+          height: 656
         },
         {
           width: 123,
           height: 456,
           url: 'https://example.com/image.png',
           hash: '0x123',
-          hashFunction: 'keccak256',
-        },
-      ],
+          hashFunction: 'keccak256'
+        }
+      ]
     ])
     expect(result).toEqual([
       [
@@ -119,9 +119,9 @@ describe('validateImages', () => {
           height: 456,
           url: 'https://example.com/image.png',
           hash: '0x123',
-          hashFunction: 'keccak256',
-        },
-      ],
+          hashFunction: 'keccak256'
+        }
+      ]
     ])
   })
 
@@ -130,9 +130,9 @@ describe('validateImages', () => {
       validateImages([
         [
           {
-            hashFunction: 'keccak256',
-          },
-        ],
+            hashFunction: 'keccak256'
+          }
+        ]
       ])
     ).toEqual([])
     expect(
@@ -140,9 +140,9 @@ describe('validateImages', () => {
         [
           {
             width: 223,
-            height: 656,
-          },
-        ],
+            height: 656
+          }
+        ]
       ])
     ).toEqual([])
     expect(validateImages([[]])).toEqual([])
@@ -160,12 +160,12 @@ describe('validateLinks', () => {
     const links = [
       {
         title: '',
-        url: 'https://example.com',
+        url: 'https://example.com'
       },
       {
         title: 'Example Link',
-        url: '',
-      },
+        url: ''
+      }
     ]
     const result = validateLinks(links)
     expect(result).toEqual([])
@@ -175,12 +175,12 @@ describe('validateLinks', () => {
     const links = [
       {
         title: 'Example Link',
-        url: 'https://example.com',
+        url: 'https://example.com'
       },
       {
         title: 'Another Example Link',
-        url: 'https://example.com/another',
-      },
+        url: 'https://example.com/another'
+      }
     ]
     const result = validateLinks(links)
     expect(result).toEqual(links)
@@ -197,18 +197,18 @@ describe('validateAssets', () => {
     const assets = [
       {
         url: 'https://example.com',
-        fileType: 'image/png',
+        fileType: 'image/png'
       },
       {
         url: 'https://example.com',
         fileType: 'image/png',
-        hash: '0x1234567890abcdef',
+        hash: '0x1234567890abcdef'
       },
       {
         url: 'https://example.com',
         fileType: 'image/png',
-        hashFunction: 'sha256',
-      },
+        hashFunction: 'sha256'
+      }
     ]
     const result = validateAssets(assets)
     expect(result).toEqual([])
@@ -220,16 +220,16 @@ describe('validateAssets', () => {
         url: 'https://example.com',
         fileType: 'image/png',
         hash: '0x1234567890abcdef',
-        hashFunction: 'sha256',
+        hashFunction: 'sha256'
       },
       {
         url: 'https://example.com',
         fileType: 'image/png',
         verification: {
           data: '0x1234567890abcdef',
-          method: 'sha256',
-        },
-      },
+          method: 'sha256'
+        }
+      }
     ]
     const result = validateAssets(assets)
     expect(result).toEqual(assets)
@@ -245,14 +245,14 @@ describe('validateIcon', () => {
   test('should return an empty array if an icon does not have a url, width, and height', () => {
     const icon = [
       {
-        width: 100,
+        width: 100
       },
       {
-        url: '',
+        url: ''
       },
       {
-        url: undefined,
-      },
+        url: undefined
+      }
     ]
     const result = validateIcon(icon)
     expect(result).toEqual([])
@@ -265,11 +265,11 @@ describe('validateIcon', () => {
         height: 456,
         url: 'https://example.com/image.png',
         hash: '0x123',
-        hashFunction: 'keccak256',
+        hashFunction: 'keccak256'
       },
       {
-        url: 'https://example.com/image.png',
-      },
+        url: 'https://example.com/image.png'
+      }
     ]
     const result = validateIcon(icon)
     expect(result).toEqual(icon)
@@ -283,7 +283,7 @@ test('validateTags', async () => {
   expect(validateTags(['tag1', 'tag2', 'tag3', 'tag4'])).toEqual([
     'tag1',
     'tag2',
-    'tag3',
+    'tag3'
   ])
   expect(validateTags([123, 'tag2', { test: '123' }, 'tag4'])).toEqual(['tag2'])
 })

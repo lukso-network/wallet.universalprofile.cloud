@@ -13,7 +13,7 @@ const handleChangeNetwork = async () => {
   try {
     await INJECTED_PROVIDER?.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: currentNetwork.chainId }],
+      params: [{ chainId: currentNetwork.chainId }]
     })
   } catch (error: unknown) {
     console.error(error)

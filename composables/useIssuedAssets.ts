@@ -15,18 +15,18 @@ function getIssuedAssets(_profiles: MaybeRef<Address[]>) {
     const allProfiles: (Address | null)[] =
       (isRef(_profiles) ? _profiles.value : _profiles) || []
     const profiles: Address[] = allProfiles.filter(
-      profile => profile && isAddress(profile)
+      (profile) => profile && isAddress(profile)
     ) as Address[]
     const queries: QFQueryOptions[] & {
       profiles: Address[]
       allProfiles: (Address | undefined | null)[]
-    } = profiles.map(profile =>
+    } = profiles.map((profile) =>
       queryGetData({
         chainId,
         address: profile as Address,
         keyName: 'LSP12IssuedAssets[]',
         refetchInterval: 120_000,
-        staleTime: 250,
+        staleTime: 250
       })
     ) as QFQueryOptions[] & {
       profiles: Address[]
@@ -38,7 +38,7 @@ function getIssuedAssets(_profiles: MaybeRef<Address[]>) {
   })
   return useQueries({
     queries,
-    combine: results => {
+    combine: (results) => {
       const allProfiles = queries.value.allProfiles
       const profiles = queries.value.profiles
       const output = Object.fromEntries(
@@ -54,7 +54,7 @@ function getIssuedAssets(_profiles: MaybeRef<Address[]>) {
         }
       }
       return output
-    },
+    }
   })
 }
 
@@ -76,10 +76,10 @@ export function useIssuedAssets() {
         return new Map<Address, boolean>(
           Object.entries(issuedAssets.value || {})?.map(([address, assets]) => [
             address as Address,
-            assetAddress ? assets.has(assetAddress) : false,
+            assetAddress ? assets.has(assetAddress) : false
           ])
         )
       })
-    },
+    }
   }
 }

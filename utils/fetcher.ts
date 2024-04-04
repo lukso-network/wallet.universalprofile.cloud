@@ -18,9 +18,9 @@ export const fetcher = async <Response, Request>(config: {
     method: config.method,
     headers: config.headers || {
       Accept: 'application/json',
-      ...(config.data ? { 'Content-Type': 'application/json' } : {}),
+      ...(config.data ? { 'Content-Type': 'application/json' } : {})
     },
-    redirect: 'follow',
+    redirect: 'follow'
   }
   if (config.data) {
     fetchConfig.body = JSON.stringify(config.data)

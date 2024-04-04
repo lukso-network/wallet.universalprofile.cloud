@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { assertString } from '@/utils/validators'
 import { SUPPORTED_NETWORK_IDS } from '@/shared/config'
 import { INJECTED_PROVIDER } from '@/shared/provider'
+import { assertString } from '@/utils/validators'
 
 if (typeof window !== 'undefined') {
   import('@lukso/web-components')
@@ -9,8 +9,9 @@ if (typeof window !== 'undefined') {
 
 const { addWeb3, getWeb3 } = useWeb3Store()
 const { getNetworkById } = useAppStore()
-const { isLoadedApp, selectedChainId, isSearchOpen } =
-  storeToRefs(useAppStore())
+const { isLoadedApp, selectedChainId, isSearchOpen } = storeToRefs(
+  useAppStore()
+)
 const { addProviderEvents, removeProviderEvents, disconnect } =
   useBrowserExtension()
 
@@ -151,8 +152,8 @@ const checkBuyLyx = () => {
       confirmButtonText: formatMessage('transak_success_button'),
       data: {
         status,
-        orderId,
-      },
+        orderId
+      }
     })
   }
 }
@@ -186,13 +187,13 @@ useHead({
       }
 
       return bodyClass.join(' ')
-    }),
+    })
   },
   script: [
     {
-      innerHTML: `if('serviceWorker' in navigator){window.addEventListener('load', () => {navigator.serviceWorker.register('/sw.js', { scope: '/' })})}`,
-    },
-  ],
+      innerHTML: `if('serviceWorker' in navigator){window.addEventListener('load', () => {navigator.serviceWorker.register('/sw.js', { scope: '/' })})}`
+    }
+  ]
 })
 </script>
 

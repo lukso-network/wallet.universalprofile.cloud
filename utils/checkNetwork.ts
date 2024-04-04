@@ -6,11 +6,11 @@ import { INJECTED_PROVIDER } from '@/shared/provider'
  *
  * @returns
  */
-export const checkExtensionNetwork = async (): Promise<void | never> => {
+export const checkExtensionNetwork = async (): Promise<void> => {
   const { currentNetwork } = useAppStore()
   const { showModal } = useModal()
   const chainId = (await INJECTED_PROVIDER?.request({
-    method: 'eth_chainId',
+    method: 'eth_chainId'
   })) as string
 
   // when we can't get network information from ext it's very likely it's not installed yet, then we just exit
@@ -21,7 +21,7 @@ export const checkExtensionNetwork = async (): Promise<void | never> => {
   // if network mismatch then show modal and break further execution by throwing an error
   if (currentNetwork.chainId !== chainId) {
     showModal({
-      template: 'SwitchExtensionNetwork',
+      template: 'SwitchExtensionNetwork'
     })
 
     throw new Error('Wrong network')

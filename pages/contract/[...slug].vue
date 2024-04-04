@@ -13,7 +13,7 @@ const asset = useAsset()(assetAddress, tokenId)
 
 watch(
   () => asset.value,
-  asset => {
+  (asset) => {
     if (!asset || asset.isLoading) {
       return
     }

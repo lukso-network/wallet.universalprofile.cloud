@@ -20,8 +20,8 @@ const handleSendAsset = (event: Event) => {
     navigateTo({
       path: sendRoute(connectedProfile.value.address),
       query: {
-        asset: token.value.address,
-      },
+        asset: token.value.address
+      }
     })
   } catch (error) {
     console.error(error)
@@ -38,9 +38,9 @@ const handlePreviewImage = () => {
   showModal({
     template: 'AssetImage',
     data: {
-      asset: image,
+      asset: image
     },
-    size: 'auto',
+    size: 'auto'
   })
 }
 </script>

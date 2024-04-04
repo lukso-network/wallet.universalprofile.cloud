@@ -13,7 +13,7 @@ const allTokens = useProfileAssets()(profileAddress)
 const handleSelectLyx = () => {
   assertAddress(connectedProfile?.value?.address, 'profile')
   navigateTo({
-    path: sendRoute(connectedProfile.value.address),
+    path: sendRoute(connectedProfile.value.address)
   })
   props.closeModal()
 }
@@ -27,20 +27,20 @@ const handleSelectAsset = (asset: Asset) => {
   if (isLsp8(asset)) {
     query = {
       ...query,
-      tokenId: asset?.tokenId,
+      tokenId: asset?.tokenId
     }
   }
 
   if (isCollectible(asset)) {
     query = {
       ...query,
-      amount: '1', // prefill amount field for collectibles
+      amount: '1' // prefill amount field for collectibles
     }
   }
 
   navigateTo({
     path: sendRoute(connectedProfile.value.address),
-    query,
+    query
   })
 
   props.closeModal()

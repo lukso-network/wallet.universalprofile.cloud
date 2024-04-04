@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useIntersectionObserver } from '@vueuse/core'
 import makeBlockie from 'ethereum-blockies-base64'
 import { ref } from 'vue'
-import { useIntersectionObserver } from '@vueuse/core'
 
 type Props = {
   asset: Asset
@@ -39,19 +39,19 @@ const handleSendAsset = (event: Event) => {
 
     let query: SendQueryParams = {
       asset: props.asset?.address,
-      tokenId: props.asset?.tokenId,
+      tokenId: props.asset?.tokenId
     }
 
     if (isCollectible(props.asset)) {
       query = {
         ...query,
-        amount: '1',
+        amount: '1'
       }
     }
 
     navigateTo({
       path: sendRoute(connectedProfile.value.address),
-      query,
+      query
     })
   } catch (error) {
     console.error(error)
@@ -70,7 +70,7 @@ onMounted(() => {
         targetIsVisible.value = targetIsVisible.value || isIntersecting
       },
       {
-        rootMargin: '600px', // load images before they appear in viewport
+        rootMargin: '600px' // load images before they appear in viewport
       }
     )
   }, 1)

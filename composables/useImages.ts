@@ -35,7 +35,7 @@ export const useOptimizedImages = (
         imagesOriginal.value[index].some(
           (imageItem, index) =>
             imageItem.url !== image[index].url ||
-            imageItem?.verification?.data != image[index].verification?.data
+            imageItem?.verification?.data !== image[index].verification?.data
         )
       ) {
         imagesOriginal.value[index] = image
@@ -57,7 +57,7 @@ export const useOptimizedImages = (
     return imagesOriginal.value?.map((image, index) => {
       return {
         optimized: unref(imagesFinal.value[index]),
-        original: image,
+        original: image
       }
     })
   })

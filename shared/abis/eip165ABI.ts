@@ -8,16 +8,16 @@ export const eip165ABI: AbiItem[] = [
       {
         type: 'bool',
         name: '',
-        internalType: 'bool',
-      },
+        internalType: 'bool'
+      }
     ],
     name: 'supportsInterface',
     inputs: [
       {
         type: 'bytes4',
         name: 'interfaceId',
-        internalType: 'bytes4',
-      },
-    ],
-  },
+        internalType: 'bytes4'
+      }
+    ]
+  }
 ]

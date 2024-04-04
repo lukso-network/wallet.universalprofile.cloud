@@ -1,5 +1,7 @@
 {
   "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "biomejs.biome",
   "vitest.enable": true,
   "vitest.commandLine": "yarn dotenv -- vitest",
   "vitest.debugExclude": ["<node_internals>/**", "**/node_modules/**"],
@@ -10,5 +12,14 @@
     "**/tests/e2e/**",
     "**/.{idea,git,cache,output,temp}/**"
   ],
-  "cSpell.words": ["serviceworker"]
+  "cSpell.words": ["serviceworker"],
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "typescript.format.enable": false,
+  "javascript.format.enable": false,
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  }
 }

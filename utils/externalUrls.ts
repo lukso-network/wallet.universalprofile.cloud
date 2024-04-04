@@ -55,7 +55,7 @@ export const transakBuyLyxUrl = () => {
     hideMenu: 'true',
     redirectURL: `${BASE_WALLET_URL}/${connectedProfile?.value?.address}?network=${currentNetwork.value.id}`,
     themeColor: '243542', // neutral-20
-    exchangeScreenTitle: formatMessage('transak_widget_title'),
+    exchangeScreenTitle: formatMessage('transak_widget_title')
   }
 
   const queryParamsString = Object.entries(queryParams)

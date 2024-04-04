@@ -22,10 +22,10 @@ export const reactiveImageIfNeeded = (
 
     const reference = ref<Image | null>(null)
     weakMap.set(imageObj, reference)
-    resolveImageURL(imageObj?.url, IMAGE_ERROR_URL).then(url => {
+    resolveImageURL(imageObj?.url, IMAGE_ERROR_URL).then((url) => {
       reference.value = {
         ...imageObj,
-        url,
+        url
       }
     })
     return reference as MaybeRef<Image | null>
@@ -65,7 +65,7 @@ export const getImageBySize = (
     })
     const dpr = window.devicePixelRatio || 1
     const normalImage = sortedImagesAscending?.find(
-      image => image.width && image.width > width * dpr
+      (image) => image.width && image.width > width * dpr
     )
 
     if (normalImage) {
@@ -123,7 +123,7 @@ export const getOptimizedImage = (
             }
           } catch {}
           const request = await fetch(url, { method: 'HEAD' })
-            .then(response => (response.ok ? response : null))
+            .then((response) => (response.ok ? response : null))
             .catch(() => null)
           const isVerified = request?.headers?.get('x-verified') || null
           promise.value =
@@ -141,8 +141,8 @@ export const getOptimizedImage = (
           verification?.data != null
         ) {
           const data = await fetch(url)
-            .then(response => (response.ok ? response.arrayBuffer() : null))
-            .then(buffer =>
+            .then((response) => (response.ok ? response.arrayBuffer() : null))
+            .then((buffer) =>
               buffer
                 ? bytesToHex(new Uint8Array(buffer) as unknown as number[])
                 : null
@@ -184,10 +184,10 @@ export const getOptimizedImage = (
             }
           : {
               method: verification?.method || '0x00000000',
-              data: verification?.data || '0x',
+              data: verification?.data || '0x'
             }),
         width: width * dpr,
-        ...(dpr !== 1 ? { dpr } : {}),
+        ...(dpr !== 1 ? { dpr } : {})
       }
       const queryParamsString = Object.entries(queryParams)
         .map(([key, value]) => `${key}=${value}`)
@@ -197,13 +197,13 @@ export const getOptimizedImage = (
       if (cid) {
         return {
           url: `${LUKSO_PROXY_API}/image/${cid}?${queryParamsString}`,
-          verified,
+          verified
         }
       }
     }
     return {
       url: url || null,
-      verified,
+      verified
     }
   })
 }

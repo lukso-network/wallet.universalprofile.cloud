@@ -33,8 +33,8 @@ const handleSendAsset = (event: Event) => {
     navigateTo({
       path: sendRoute(connectedProfile.value.address),
       query: {
-        asset: props.asset?.address,
-      },
+        asset: props.asset?.address
+      }
     })
   } catch (error) {
     console.error(error)

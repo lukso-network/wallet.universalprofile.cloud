@@ -26,6 +26,6 @@ export default function useLocalStorage() {
   return {
     setItem,
     getItem,
-    removeItem,
+    removeItem
   }
 }

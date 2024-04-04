@@ -22,19 +22,19 @@ const handleSendAsset = (event: Event) => {
 
     let query: SendQueryParams = {
       asset: props.asset?.address,
-      tokenId: props.asset?.tokenId,
+      tokenId: props.asset?.tokenId
     }
 
     if (isCollectible(props.asset)) {
       query = {
         ...query,
-        amount: '1', // prefill amount field for collectibles
+        amount: '1' // prefill amount field for collectibles
       }
     }
 
     navigateTo({
       path: sendRoute(connectedProfile.value.address),
-      query,
+      query
     })
   } catch (error) {
     console.error(error)
@@ -55,9 +55,9 @@ const handlePreviewImage = () => {
   showModal({
     template: 'AssetImage',
     data: {
-      asset: image,
+      asset: image
     },
-    size: 'auto',
+    size: 'auto'
   })
 }
 </script>

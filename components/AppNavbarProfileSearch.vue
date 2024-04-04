@@ -18,23 +18,22 @@ const searchResults = async () => {
     query: searchTerm.value || '',
     requestOptions: {
       hitsPerPage: SEARCH_RESULTS_LIMIT,
-      page: 0,
-    },
+      page: 0
+    }
   })
 
   if (searchResults.hits.length === 0) {
     hasNoResults.value = true
     isSearching.value = false
     return
-  } else {
-    hasNoResults.value = false
   }
+  hasNoResults.value = false
 
-  results.value = searchResults.hits.map(hit => {
+  results.value = searchResults.hits.map((hit) => {
     return {
       name: hit.LSP3Profile?.name,
       address: hit.address,
-      image: hit.profileImageUrl,
+      image: hit.profileImageUrl
     }
   })
   isSearching.value = false

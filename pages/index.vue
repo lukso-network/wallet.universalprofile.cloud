@@ -1,14 +1,14 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'landing',
+  layout: 'landing'
 })
 
 const { isConnected, connectedProfileAddress } = storeToRefs(useAppStore())
 const { isUniversalProfileExtension } = useBrowserExtension()
 
 const supportedBrowsers = Object.entries(EXTENSION_STORE_LINKS)
-  .filter(entry => entry[1] !== '')
-  .map(browser => browser[0])
+  .filter((entry) => entry[1] !== '')
+  .map((browser) => browser[0])
 
 watchEffect(() => {
   if (isConnected.value) {

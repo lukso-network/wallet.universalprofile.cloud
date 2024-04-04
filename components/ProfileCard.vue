@@ -16,9 +16,9 @@ const handlePreviewProfileImage = () => {
   showModal({
     template: 'AssetImage',
     data: {
-      asset: image,
+      asset: image
     },
-    size: 'auto',
+    size: 'auto'
   })
 }
 </script>

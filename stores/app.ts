@@ -1,5 +1,5 @@
 import type { Modal } from '@/types/modal'
-import type { NetworkInfo, NetworkId } from '@/types/network'
+import type { NetworkId, NetworkInfo } from '@/types/network'
 
 /**
  * App store
@@ -26,13 +26,13 @@ export const useAppStore = defineStore(
 
     const getNetworkByChainId = (chainId: string): NetworkInfo => {
       const network = networks.value.find(
-        network => network.chainId === chainId
+        (network) => network.chainId === chainId
       )
 
       // fallback to default network
       if (!network) {
         return networks.value.find(
-          network => network.chainId === DEFAULT_NETWORK_CHAIN_ID
+          (network) => network.chainId === DEFAULT_NETWORK_CHAIN_ID
         ) as NetworkInfo
       }
 
@@ -40,11 +40,11 @@ export const useAppStore = defineStore(
     }
 
     const getNetworkById = (id: NetworkId): NetworkInfo => {
-      const network = networks.value.find(network => network.id === id)
+      const network = networks.value.find((network) => network.id === id)
 
       if (!network) {
         return networks.value.find(
-          network => network.chainId === DEFAULT_NETWORK_CHAIN_ID
+          (network) => network.chainId === DEFAULT_NETWORK_CHAIN_ID
         ) as NetworkInfo
       }
 
@@ -80,13 +80,13 @@ export const useAppStore = defineStore(
       assetFilter,
       isTestnet,
       hasSimpleNavbar,
-      isSearchOpen,
+      isSearchOpen
     }
   },
   {
     persist: {
       paths: ['connectedProfileAddress', 'selectedChainId'],
-      key: STORAGE_KEY.APP_STORE,
-    },
+      key: STORAGE_KEY.APP_STORE
+    }
   }
 )

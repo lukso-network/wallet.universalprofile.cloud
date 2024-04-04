@@ -29,12 +29,12 @@ const tokensCreated = computed(() =>
 
 const nftsOwned = computed(() =>
   allTokens.value?.filter(
-    asset => asset.isOwned && isCollectible(asset) && asset.balance !== '0'
+    (asset) => asset.isOwned && isCollectible(asset) && asset.balance !== '0'
   )
 )
 
 const nftsCreated = computed(() =>
-  allTokens.value?.filter(asset => asset.isIssued && isCollectible(asset))
+  allTokens.value?.filter((asset) => asset.isIssued && isCollectible(asset))
 )
 
 // tokens
@@ -95,7 +95,7 @@ const hasEmptyNfts = computed(
 )
 
 const isLoadingAssets = computed(() =>
-  allTokens.value?.some(asset => asset.isLoading)
+  allTokens.value?.some((asset) => asset.isLoading)
 )
 </script>
 

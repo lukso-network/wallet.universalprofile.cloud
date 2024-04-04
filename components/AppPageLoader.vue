@@ -4,7 +4,7 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isLoading: false,
+  isLoading: false
 })
 
 const { isLoading } = toRefs(props)

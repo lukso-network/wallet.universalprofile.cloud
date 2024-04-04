@@ -3,15 +3,17 @@ import { keccak256 } from 'web3-utils'
 
 import { browserProcessMetadata } from '@/utils/processMetadata'
 
-import type { LSP3ProfileMetadataJSON } from '@lukso/lsp-smart-contracts'
-import type { QFQueryOptions } from '@/utils/queryFunctions'
 import type { ProfileLink } from '@/types/profile'
+import type { QFQueryOptions } from '@/utils/queryFunctions'
+import type { LSP3ProfileMetadataJSON } from '@lukso/lsp-smart-contracts'
 
 export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
   const { currentNetwork } = storeToRefs(useAppStore())
 
   const queries = computed(() => {
-    const { value: { chainId } = { chainId: '' } } = currentNetwork
+    const {
+      value: { chainId } = { chainId: '' }
+    } = currentNetwork
     const profileAddress = isRef(_profile)
       ? _profile.value || null
       : _profile || null
@@ -27,14 +29,14 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
                 return profileAddress ? await getBalance(profileAddress) : 0
               },
               refetchInterval: 120_000,
-              staleTime: 250,
+              staleTime: 250
             },
             // 1
             queryGetData({
               chainId,
               address: profileAddress,
               keyName: 'LSP3Profile',
-              process: data => browserProcessMetadata(data, keccak256),
+              process: (data) => browserProcessMetadata(data, keccak256)
             }),
             // 2
             queryGetData({
@@ -42,7 +44,7 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
               address: profileAddress,
               keyName: 'LSP5ReceivedAssets[]',
               refetchInterval: 120_000,
-              staleTime: 250,
+              staleTime: 250
             }),
             // 3
             queryGetData({
@@ -50,7 +52,7 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
               address: profileAddress,
               keyName: 'LSP12IssuedAssets[]',
               refetchInterval: 120_000,
-              staleTime: 250,
+              staleTime: 250
             }),
             {
               // 4
@@ -59,7 +61,7 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
                 return await resolveProfile(profileAddress)
               },
               refetchInterval: 120_000,
-              staleTime: 250,
+              staleTime: 250
             },
             // 5-10
             ...interfacesToCheck.map(({ interfaceId }) =>
@@ -67,9 +69,9 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
                 chainId,
                 address: profileAddress as Address,
                 method: 'supportsInterface(bytes4)',
-                args: [interfaceId],
+                args: [interfaceId]
               })
-            ),
+            )
           ]
         : []
     ) as QFQueryOptions[] & { profileAddress: Address | null }
@@ -78,17 +80,17 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
   })
   return useQueries({
     queries,
-    combine: results => {
+    combine: (results) => {
       const profileAddress: Address | null = queries.value.profileAddress
       if (!profileAddress) {
         return null
       }
-      const isLoading = results.some(result => result.isLoading)
+      const isLoading = results.some((result) => result.isLoading)
       const balance = results[0].data as string
       const profileData = results[1].data as LSP3ProfileMetadataJSON
       const receivedAssets = results[2].data as Address[]
       const issuedAssets = results[3].data as Address[]
-      const profileLink = (results[4].data as ProfileLink) || {}
+      const profileLink = results[4].data as ProfileLink
       const { supportsInterfaces, standard } = interfacesToCheck.reduce(
         (
           { supportsInterfaces, standard },
@@ -124,13 +126,13 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
         links,
         description,
         tags,
-        profileLink,
+        profileLink
       } as Profile
       if (!profile.isLoading && profileLog.enabled) {
         profileLog('profile', profile)
       }
       return profile
-    },
+    }
   })
 }
 
@@ -158,6 +160,6 @@ export function useProfile() {
   return {
     getProfile,
     connectedProfile,
-    viewedProfile,
+    viewedProfile
   }
 }

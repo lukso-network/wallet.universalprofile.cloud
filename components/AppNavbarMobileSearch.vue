@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const { isSearchOpen } = storeToRefs(useAppStore())
 
-const handleClose = () => (isSearchOpen.value = false)
+const handleClose = () => {
+  isSearchOpen.value = false
+}
 </script>
 
 <template>

@@ -1,4 +1,5 @@
 import { useQueries } from '@tanstack/vue-query'
+import type { Address } from 'web3-types'
 import { hexToAscii, stripHexPrefix, toNumber } from 'web3-utils'
 
 import { LUKSO_PROXY_API } from '@/shared/config'
@@ -18,7 +19,9 @@ export function useProfileAssets() {
     const profile = useProfile().getProfile(profileAddress as MaybeRef<Address>)
     const queries: ComputedRef<Array<QFQueryOptions> & AdditionalQueryOptions> =
       computed(() => {
-        const { value: { chainId } = { chainId: '' } } = currentNetwork
+        const {
+          value: { chainId } = { chainId: '' }
+        } = currentNetwork
         const allAddresses = ([] as `0x${string}`[]).concat(
           profile?.value?.receivedAssets || [],
           profile?.value?.issuedAssets || []
@@ -33,7 +36,7 @@ export function useProfileAssets() {
                 method: 'tokenIdsOf(address)',
                 args: [profile.value?.address],
                 refetchInterval: 120000,
-                staleTime: 250,
+                staleTime: 250
               }),
               queryCallContract({
                 // 1
@@ -42,49 +45,49 @@ export function useProfileAssets() {
                 method: 'balanceOf(address)',
                 args: [profile.value?.address],
                 refetchInterval: 120000,
-                staleTime: 250,
+                staleTime: 250
               }),
               queryGetData({
                 // 2
                 chainId,
                 address,
-                keyName: 'LSP4TokenName',
+                keyName: 'LSP4TokenName'
               }),
               queryGetData({
                 // 3
                 chainId,
                 address,
-                keyName: 'LSP4TokenSymbol',
+                keyName: 'LSP4TokenSymbol'
               }),
               queryGetData({
                 // 4
                 chainId,
                 address,
-                keyName: 'LSP4TokenType',
+                keyName: 'LSP4TokenType'
               }),
               queryGetData({
                 // 5
                 chainId,
                 address,
-                keyName: 'LSP8TokenMetadataBaseURI',
+                keyName: 'LSP8TokenMetadataBaseURI'
               }),
               queryGetData({
                 // 6
                 chainId,
                 address,
-                keyName: 'LSP8TokenIdFormat',
+                keyName: 'LSP8TokenIdFormat'
               }),
               queryCallContract({
                 // 7
                 chainId,
                 address,
-                method: 'decimals()',
+                method: 'decimals()'
               }),
               queryGetData({
                 // 8
                 chainId,
                 address,
-                keyName: 'LSP8ReferenceContract',
+                keyName: 'LSP8ReferenceContract'
               }),
               ...interfacesToCheck.map(({ interfaceId }) => {
                 return queryCallContract({
@@ -92,9 +95,9 @@ export function useProfileAssets() {
                   chainId,
                   address,
                   method: 'supportsInterface(bytes4)',
-                  args: [interfaceId],
+                  args: [interfaceId]
                 })
-              }),
+              })
             ]
           }) as Array<QFQueryOptions> & AdditionalQueryOptions
         // Trick to keep additional query options attached to the current queries list.
@@ -105,7 +108,7 @@ export function useProfileAssets() {
       })
     return useQueries({
       queries,
-      combine: results => {
+      combine: (results) => {
         if (!profile.value?.address) {
           return
         }
@@ -148,9 +151,9 @@ export function useProfileAssets() {
               standard: string | null
             }
           )
-          const isLoading = results.some(result => result.isLoading)
+          const isLoading = results.some((result) => result.isLoading)
           if (tokenIds && tokenIds.length > 0) {
-            return tokenIds.map(tokenId => {
+            return tokenIds.map((tokenId) => {
               let tokenURI = undefined
               let tokenDataURL = undefined
               try {
@@ -199,7 +202,7 @@ export function useProfileAssets() {
                 tokenName,
                 tokenSymbol,
                 tokenType,
-                supportsInterfaces,
+                supportsInterfaces
               } as Asset
               if (!isLoading && assetLog.enabled) {
                 assetLog('profile-asset', asset)
@@ -225,14 +228,14 @@ export function useProfileAssets() {
             tokenSymbol,
             tokenType,
             supportsInterfaces,
-            decimals,
+            decimals
           } as Asset
           if (!isLoading && assetLog.enabled) {
             assetLog('profile-asset', asset)
           }
           return asset
         }) || []) as Asset[]
-      },
+      }
     })
   }
 }

@@ -8,10 +8,10 @@ const { isMobileOrTablet } = useDevice()
 const networkConfig = useNetworkConfig()
 
 onMounted(() => {
-  networks.value = networkConfig.map(network => {
+  networks.value = networkConfig.map((network) => {
     return {
       id: network.chainId,
-      value: network.name,
+      value: network.name
     }
   })
 })
@@ -19,7 +19,7 @@ onMounted(() => {
 watchEffect(() => {
   selectedNetwork.value = {
     id: currentNetwork.value.chainId,
-    value: currentNetwork.value.name,
+    value: currentNetwork.value.name
   }
 })
 
@@ -36,8 +36,8 @@ const handleNetworkChange = async (event: CustomEvent) => {
     template: 'SwitchApplicationNetwork',
     data: {
       name: selectedNetwork.value,
-      chainId: selectedNetwork.id,
-    },
+      chainId: selectedNetwork.id
+    }
   })
 }
 </script>

@@ -13,7 +13,7 @@ export const prepareMetadata = (metadata: LSP4DigitalAssetMetadataJSON) => {
       return url
         ? ({
             ...asset,
-            src: url.startsWith('ipfs://') ? resolveUrl(url) : url,
+            src: url.startsWith('ipfs://') ? resolveUrl(url) : url
           } as AssetMetadata & { src: string })
         : asset
     }) || []
@@ -24,8 +24,13 @@ export const prepareMetadata = (metadata: LSP4DigitalAssetMetadataJSON) => {
         return {
           ...image,
           src: url.startsWith('ipfs://')
-            ? `${LUKSO_PROXY_API}/image/${url.replace(/^ipfs:\/\//, '')}?method=${verification?.method || '0x00000000'}&data=${verification?.data || '0x'}`
-            : url,
+            ? `${LUKSO_PROXY_API}/image/${url.replace(
+                /^ipfs:\/\//,
+                ''
+              )}?method=${verification?.method || '0x00000000'}&data=${
+                verification?.data || '0x'
+              }`
+            : url
         } as Image & { src: string }
       })
     }) || []
@@ -35,8 +40,10 @@ export const prepareMetadata = (metadata: LSP4DigitalAssetMetadataJSON) => {
       return {
         ...image,
         src: url.startsWith('ipfs://')
-          ? `${LUKSO_PROXY_API}/image/${url.replace(/^ipfs:\/\//, '')}?method=${verification?.method || '0x00000000'}&data=${verification?.data || '0x'}`
-          : url,
+          ? `${LUKSO_PROXY_API}/image/${url.replace(/^ipfs:\/\//, '')}?method=${
+              verification?.method || '0x00000000'
+            }&data=${verification?.data || '0x'}`
+          : url
       } as Image & { src: string }
     }) || []
 
@@ -46,6 +53,6 @@ export const prepareMetadata = (metadata: LSP4DigitalAssetMetadataJSON) => {
     attributes,
     description,
     links,
-    assets,
+    assets
   } as LSP4DigitalAssetMetadata
 }

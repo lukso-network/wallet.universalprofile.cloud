@@ -1,9 +1,9 @@
-import { expect, test, describe } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import {
   assertAddress,
   assertAddresses,
-  assertString,
   assertArray,
+  assertString
 } from '../validators'
 
 describe('assertAddress', () => {
@@ -12,7 +12,7 @@ describe('assertAddress', () => {
       assertAddress('0x0', 'profile')
     } catch (error) {
       expect((error as unknown as Error).message).toBe(
-        `0x0 is not an profile address`
+        '0x0 is not an profile address'
       )
     }
   })
@@ -22,7 +22,7 @@ describe('assertAddress', () => {
       assertAddress(undefined)
     } catch (error) {
       expect((error as unknown as Error).message).toBe(
-        `undefined is not a string`
+        'undefined is not a string'
       )
     }
   })
@@ -43,7 +43,7 @@ describe('assertAddresses', () => {
       )
     } catch (error) {
       expect((error as unknown as Error).message).toBe(
-        `0x0 is not an profile address`
+        '0x0 is not an profile address'
       )
     }
   })
@@ -53,7 +53,7 @@ describe('assertAddresses', () => {
       assertAddresses(undefined)
     } catch (error) {
       expect((error as unknown as Error).message).toBe(
-        `undefined is not an  array`
+        'undefined is not an  array'
       )
     }
   })
@@ -62,7 +62,7 @@ describe('assertAddresses', () => {
     expect(
       assertAddresses([
         '0x4440a406E00ECfe15a833119D20B848a31c80116',
-        '0x463306b7D641FDff5D3E30947aC96074b705d4E8',
+        '0x463306b7D641FDff5D3E30947aC96074b705d4E8'
       ])
     ).toBeUndefined()
   })
@@ -73,7 +73,7 @@ describe('assertString', () => {
     try {
       assertString(123)
     } catch (error) {
-      expect((error as unknown as Error).message).toBe(`123 is not a string`)
+      expect((error as unknown as Error).message).toBe('123 is not a string')
     }
   })
 
@@ -82,7 +82,7 @@ describe('assertString', () => {
       assertString([123, 'asdf'])
     } catch (error) {
       expect((error as unknown as Error).message).toBe(
-        `123,asdf is not a string`
+        '123,asdf is not a string'
       )
     }
   })
@@ -98,7 +98,7 @@ describe('assertArray', () => {
       assertArray(123, 'users')
     } catch (error) {
       expect((error as unknown as Error).message).toBe(
-        `123 is not an users array`
+        '123 is not an users array'
       )
     }
   })

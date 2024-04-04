@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { type AbiItem, toWei } from 'web3-utils'
 import LSP7Mintable from '@lukso/lsp-smart-contracts/artifacts/LSP7Mintable.json'
 import LSP8Mintable from '@lukso/lsp-smart-contracts/artifacts/LSP8Mintable.json'
+import { type AbiItem, toWei } from 'web3-utils'
 
-import type { TransactionConfig } from 'web3-core'
-import type { TransactionReceipt } from 'web3-eth'
 import type {
   LSP7DigitalAsset,
-  LSP8IdentifiableDigitalAsset,
+  LSP8IdentifiableDigitalAsset
 } from '@/contracts'
+import type { TransactionConfig } from 'web3-core'
+import type { TransactionReceipt } from 'web3-eth'
 
 const connectedProfile = useProfile().connectedProfile()
 const {
@@ -16,7 +16,7 @@ const {
   onSend,
   amount: sendAmount,
   receiver,
-  transactionHash,
+  transactionHash
 } = storeToRefs(useSendStore())
 const { isLoadedApp, isConnected, hasSimpleNavbar } = storeToRefs(useAppStore())
 const { setStatus, clearSend } = useSendStore()
@@ -73,14 +73,14 @@ const handleSend = async () => {
       const transaction = {
         from: connectedProfile.value?.address,
         to: receiver.value?.address as unknown as string,
-        value: toWei(sendAmount.value || '0'),
+        value: toWei(sendAmount.value || '0')
       } as TransactionConfig
       transactionsReceipt = await sendTransaction(transaction)
       transactionHash.value = transactionsReceipt.transactionHash
     } else {
       // custom token transfer
       switch (sendAsset.value?.standard) {
-        case STANDARDS.LSP7:
+        case STANDARDS.LSP7: {
           const tokenContract = contract<LSP7DigitalAsset>(
             LSP7Mintable.abi as AbiItem[],
             sendAsset.value?.address
@@ -102,7 +102,8 @@ const handleSend = async () => {
             .send({ from: connectedProfile.value.address })
           transactionHash.value = transactionsReceipt.transactionHash
           break
-        case STANDARDS.LSP8:
+        }
+        case STANDARDS.LSP8: {
           const nftContract = contract<LSP8IdentifiableDigitalAsset>(
             LSP8Mintable.abi as AbiItem[],
             sendAsset.value?.address
@@ -123,6 +124,7 @@ const handleSend = async () => {
           transactionHash.value = transactionsReceipt.transactionHash
           assertNotUndefined(sendAsset.value.address, 'asset')
           break
+        }
         default:
           throw new StandardError()
       }
@@ -134,7 +136,7 @@ const handleSend = async () => {
     hasSimpleNavbar.value = false
 
     showModal({
-      message: getErrorMessage(error),
+      message: getErrorMessage(error)
     })
   }
 }

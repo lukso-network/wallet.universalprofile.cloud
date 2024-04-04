@@ -1,6 +1,6 @@
 import type {
   LSP3ProfileMetadata,
-  LinkMetadata,
+  LinkMetadata
 } from '@lukso/lsp-smart-contracts'
 
 export type Profile = {
@@ -18,7 +18,7 @@ export type Profile = {
   profileImage?: Image[]
   backgroundImage?: Image[]
   isLoading?: boolean
-  profileLink: ProfileLink
+  profileLink?: ProfileLink
 }
 
 export type IndexedProfile = {

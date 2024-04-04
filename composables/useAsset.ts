@@ -37,37 +37,37 @@ export function useAsset() {
                 // 0
                 chainId,
                 address,
-                keyName: 'LSP4TokenName',
+                keyName: 'LSP4TokenName'
               }),
               queryGetData({
                 // 1
                 chainId,
                 address,
-                keyName: 'LSP4TokenSymbol',
+                keyName: 'LSP4TokenSymbol'
               }),
               queryGetData({
                 // 2
                 chainId,
                 address,
-                keyName: 'LSP4TokenType',
+                keyName: 'LSP4TokenType'
               }),
               queryGetData({
                 // 3
                 chainId,
                 address,
-                keyName: 'LSP8TokenMetadataBaseURI',
+                keyName: 'LSP8TokenMetadataBaseURI'
               }),
               queryGetData({
                 // 4
                 chainId,
                 address,
-                keyName: 'LSP8TokenIdFormat',
+                keyName: 'LSP8TokenIdFormat'
               }),
               queryCallContract({
                 // 5
                 chainId,
                 address,
-                method: 'totalSupply()',
+                method: 'totalSupply()'
               }),
               profileAddress.value
                 ? queryCallContract({
@@ -76,7 +76,7 @@ export function useAsset() {
                     address,
                     method: 'balanceOf(address)',
                     args: [profileAddress.value],
-                    staleTime: 250,
+                    staleTime: 250
                   })
                 : queryNull(),
               ...interfacesToCheck.map(({ interfaceId }) => {
@@ -85,9 +85,9 @@ export function useAsset() {
                   chainId,
                   address: address || '0x0',
                   method: 'supportsInterface(bytes4)',
-                  args: [interfaceId],
+                  args: [interfaceId]
                 })
-              }),
+              })
             ]
           : []
       ) as QFQueryOptions[] & {
@@ -102,7 +102,7 @@ export function useAsset() {
     })
     return useQueries({
       queries,
-      combine: results => {
+      combine: (results) => {
         if (results.length === 0) {
           return { isLoading: true } as Asset
         }
@@ -113,7 +113,7 @@ export function useAsset() {
           ({ queryKey: [type, , , call] }) =>
             type === 'call' && call === 'supportsInterface(bytes4)'
         )
-        const isLoading = results.some(result => result.isLoading)
+        const isLoading = results.some((result) => result.isLoading)
         const tokenName = results[0].data as string
         const tokenSymbol = results[1].data as string
         const tokenType = results[2].data as number
@@ -183,7 +183,7 @@ export function useAsset() {
             tokenName,
             tokenSymbol,
             tokenType,
-            supportsInterfaces,
+            supportsInterfaces
           } as Asset
           if (!isLoading && assetLog.enabled) {
             assetLog('token', asset)
@@ -202,13 +202,13 @@ export function useAsset() {
           tokenName,
           tokenSymbol,
           tokenType,
-          supportsInterfaces,
+          supportsInterfaces
         } as Asset
         if (!isLoading && assetLog.enabled) {
           assetLog('collection', asset)
         }
         return asset
-      },
+      }
     })
   }
 }

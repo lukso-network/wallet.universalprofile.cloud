@@ -10,9 +10,9 @@ const handleClick = () => {
   showModal({
     template: 'Asset3D',
     data: {
-      asset: props.asset,
+      asset: props.asset
     },
-    size: 'auto',
+    size: 'auto'
   })
 }
 </script>

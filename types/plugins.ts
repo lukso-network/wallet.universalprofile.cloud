@@ -17,5 +17,3 @@ declare module 'vue' {
     $formatCurrency(value: string, symbol: string): string
   }
 }
-
-export {}

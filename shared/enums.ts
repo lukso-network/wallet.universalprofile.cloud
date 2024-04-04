@@ -1,21 +1,21 @@
 export enum PROVIDERS {
   RPC = 'RPC',
-  INJECTED = 'INJECTED',
+  INJECTED = 'INJECTED'
 }
 
 export enum STORAGE_KEY {
   CONNECTION_EXPIRY = 'LW:connectionExpiry',
   CURRENCY_STORE = 'LW:currency',
-  APP_STORE = 'LW:app',
+  APP_STORE = 'LW:app'
 }
 
 export enum CACHE_KEY {
-  CURRENCY_CACHE = 'LW:currency',
+  CURRENCY_CACHE = 'LW:currency'
 }
 
 export enum AssetFilter {
   owned = 'owned',
-  created = 'created',
+  created = 'created'
 }
 
 export enum STANDARDS {
@@ -23,7 +23,7 @@ export enum STANDARDS {
   LSP3 = 'LSP3Profile',
   LSP7 = 'LSP7DigitalAsset',
   LSP8 = 'LSP8IdentifiableDigitalAsset',
-  UNKNOWN = 'UnknownDataType',
+  UNKNOWN = 'UnknownDataType'
 }
 
 export const STANDARDS_ABBREVIATIONS = {
@@ -31,5 +31,5 @@ export const STANDARDS_ABBREVIATIONS = {
   LSP7DigitalAsset: 'LSP7',
   LSP8IdentifiableDigitalAsset: 'LSP8',
   LSP3Profile: 'LSP3',
-  UnknownDataType: 'UNKNOWN',
+  UnknownDataType: 'UNKNOWN'
 }

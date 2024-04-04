@@ -9,7 +9,7 @@ export const useLyxToken = () => {
         tokenSymbol: currentNetwork.value.token.symbol,
         isNativeToken: true,
         decimals: ASSET_LYX_DECIMALS,
-        balance: connectedProfile.value?.balance,
+        balance: connectedProfile.value?.balance
       }) as Asset
   )
 }

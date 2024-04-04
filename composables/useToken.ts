@@ -1,17 +1,18 @@
 import { useQueries } from '@tanstack/vue-query'
 import ABICoder from 'web3-eth-abi'
+import type { Address } from 'web3-types'
 import { keccak256 } from 'web3-utils'
 
 import { browserProcessMetadata } from '@/utils/processMetadata'
 import {
   Priorities,
-  queryNull,
   type QFQueryOptions,
+  queryNull
 } from '@/utils/queryFunctions'
 
 import type {
   LSP4DigitalAssetMetadata,
-  LSP4DigitalAssetMetadataJSON,
+  LSP4DigitalAssetMetadataJSON
 } from '@/types/asset'
 
 export function useToken() {
@@ -19,7 +20,9 @@ export function useToken() {
     const connectedProfile = useProfile().connectedProfile()
     const profileAddress = computed(() => connectedProfile.value?.address)
     const { currentNetwork } = storeToRefs(useAppStore())
-    const { value: { chainId } = { chainId: '' } } = currentNetwork
+    const {
+      value: { chainId } = { chainId: '' }
+    } = currentNetwork
     const queries = computed(() => {
       const token: Asset | null = isRef(_token)
         ? _token.value || null
@@ -32,19 +35,19 @@ export function useToken() {
                 // 0
                 chainId,
                 address,
-                method: 'owner()',
+                method: 'owner()'
               }),
               queryGetData({
                 // 1
                 chainId,
                 address,
-                keyName: 'LSP4Creators[]',
+                keyName: 'LSP4Creators[]'
               }),
               queryCallContract({
                 // 2
                 chainId,
                 address,
-                method: 'decimals()',
+                method: 'decimals()'
               }),
               queryCallContract({
                 // 3
@@ -52,7 +55,7 @@ export function useToken() {
                 address,
                 method: 'tokenIdsOf(address)',
                 args: [profileAddress.value || address],
-                staleTime: 250,
+                staleTime: 250
               }),
               tokenId && tokenIdFormat === 2
                 ? queryGetData({
@@ -62,7 +65,7 @@ export function useToken() {
                       'address',
                       tokenId
                     ).toLowerCase() as Address,
-                    keyName: 'LSP8ReferenceContract',
+                    keyName: 'LSP8ReferenceContract'
                   })
                 : queryNull(),
               tokenId && tokenIdFormat === 2
@@ -73,7 +76,7 @@ export function useToken() {
                       'address',
                       tokenId
                     ).toLowerCase() as Address,
-                    keyName: 'LSP4Creators[]',
+                    keyName: 'LSP4Creators[]'
                   })
                 : queryNull(),
               queryGetData({
@@ -81,9 +84,9 @@ export function useToken() {
                 chainId,
                 address,
                 keyName: 'LSP4Metadata',
-                process: data => browserProcessMetadata(data, keccak256),
+                process: (data) => browserProcessMetadata(data, keccak256),
                 aggregateLimit: 1,
-                priority: Priorities.Low,
+                priority: Priorities.Low
               }),
               tokenId
                 ? queryGetData({
@@ -92,9 +95,9 @@ export function useToken() {
                     address,
                     tokenId,
                     keyName: 'LSP4Metadata',
-                    process: data => browserProcessMetadata(data, keccak256),
+                    process: (data) => browserProcessMetadata(data, keccak256),
                     aggregateLimit: 1,
-                    priority: Priorities.Low,
+                    priority: Priorities.Low
                   })
                 : queryNull(),
               tokenId
@@ -105,7 +108,7 @@ export function useToken() {
                       chainId,
                       token?.address,
                       tokenId,
-                      tokenDataURL,
+                      tokenDataURL
                     ],
                     queryFn: async () => {
                       if (tokenDataURL) {
@@ -114,22 +117,22 @@ export function useToken() {
                           `${LUKSO_PROXY_API}/ipfs/`
                         )
                         return await fetch(url, { redirect: 'follow' })
-                          .then(response => {
+                          .then((response) => {
                             if (!response.ok) {
                               throw new Error('Unable to fetch')
                             }
                             return response.json()
                           })
-                          .then(async data => {
+                          .then(async (data) => {
                             return await browserProcessMetadata(data, keccak256)
                           })
-                          .catch(error => {
+                          .catch((error) => {
                             console.error('Error fetching token data', error)
                             throw error
                           })
                       }
                       return null
-                    },
+                    }
                   }
                 : queryNull(),
               tokenId && tokenIdFormat === 2
@@ -141,11 +144,11 @@ export function useToken() {
                       tokenId
                     ).toLowerCase() as Address,
                     keyName: 'LSP4Metadata',
-                    process: data => browserProcessMetadata(data, keccak256),
+                    process: (data) => browserProcessMetadata(data, keccak256),
                     aggregateLimit: 1,
-                    priority: Priorities.Low,
+                    priority: Priorities.Low
                   })
-                : queryNull(),
+                : queryNull()
             ]
           : []
       ) as QFQueryOptions[] & { token: Asset | null }
@@ -154,7 +157,7 @@ export function useToken() {
     })
     return useQueries({
       queries,
-      combine: results => {
+      combine: (results) => {
         const token: Asset | null = queries.value.token as Asset
         if (!token) {
           return null
@@ -215,7 +218,7 @@ export function useToken() {
             lsp7Data,
             baseURIData,
             forTokenData,
-            assetData,
+            assetData
           },
           assetData,
           resolvedMetadata,
@@ -223,13 +226,13 @@ export function useToken() {
           decimals,
           tokenName: resolvedMetadata?.name
             ? resolvedMetadata?.name
-            : token.tokenName,
+            : token.tokenName
         } as Asset
         if (!isLoading && assetLog.enabled) {
           tokenLog('token', asset)
         }
         return asset
-      },
+      }
     })
   }
 }

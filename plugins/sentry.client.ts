@@ -1,12 +1,12 @@
 import {
   HttpClient as HttpClientIntegration,
-  ReportingObserver as ReportingObserverIntegration,
+  ReportingObserver as ReportingObserverIntegration
 } from '@sentry/integrations'
 import * as Sentry from '@sentry/vue'
 import { Scope, withScope } from '@sentry/vue'
 
-import type { NuxtApp } from 'nuxt/app'
 import type { Breadcrumb, CaptureContext, Primitive, User } from '@sentry/types'
+import type { NuxtApp } from 'nuxt/app'
 import type { Router } from 'vue-router'
 
 export default defineNuxtPlugin({
@@ -30,8 +30,8 @@ export default defineNuxtPlugin({
           sentryCaptureException: (
             _exception: any,
             _captureContext?: CaptureContext
-          ) => {},
-        },
+          ) => {}
+        }
       }
     }
 
@@ -45,20 +45,18 @@ export default defineNuxtPlugin({
           routingInstrumentation: Sentry.vueRouterInstrumentation(
             nuxtApp.$router as Router,
             {
-              routeLabel: 'path',
+              routeLabel: 'path'
             }
-          ),
+          )
         }),
         new Sentry.Replay({
-          networkDetailAllowUrls: [
-            `https//${nuxtApp.$config.public.HOST_NAME}`,
-          ],
+          networkDetailAllowUrls: [`https//${nuxtApp.$config.public.HOST_NAME}`]
         }),
         new HttpClientIntegration(),
-        new ReportingObserverIntegration(),
+        new ReportingObserverIntegration()
       ],
       tracePropagationTargets: [
-        nuxtApp.$config.public.SENTRY_TRACE_PROPAGATION_TARGET as string,
+        nuxtApp.$config.public.SENTRY_TRACE_PROPAGATION_TARGET as string
       ],
       trackComponents: true,
       hooks: ['activate', 'create', 'destroy', 'mount', 'update'],
@@ -70,7 +68,7 @@ export default defineNuxtPlugin({
       // Capture Replay for 10% of all sessions,
       // plus for 100% of sessions with an error
       replaysSessionSampleRate: 0.1,
-      replaysOnErrorSampleRate: 1,
+      replaysOnErrorSampleRate: 1
     })
 
     nuxtApp.vueApp.config.errorHandler = (err, context) => {
@@ -80,7 +78,7 @@ export default defineNuxtPlugin({
       })
     }
 
-    nuxtApp.hook('app:error', err => {
+    nuxtApp.hook('app:error', (err) => {
       Sentry.captureException(err)
     })
 
@@ -90,8 +88,8 @@ export default defineNuxtPlugin({
         sentrySetUser: Sentry.setUser,
         sentrySetTag: Sentry.setTag,
         sentryAddBreadcrumb: Sentry.addBreadcrumb,
-        sentryCaptureException: Sentry.captureException,
-      },
+        sentryCaptureException: Sentry.captureException
+      }
     }
-  },
+  }
 })

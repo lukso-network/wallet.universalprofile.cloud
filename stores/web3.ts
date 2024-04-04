@@ -32,13 +32,13 @@ export const useWeb3Store = defineStore('web3', () => {
 
     web3Instances.value = {
       ...web3Instances.value,
-      [providerName]: markRaw(web3), // web3 instances must be stored as raw objects to prevent reactivity issues
+      [providerName]: markRaw(web3) // web3 instances must be stored as raw objects to prevent reactivity issues
     }
   }
 
   return {
     web3Instances,
     getWeb3,
-    addWeb3,
+    addWeb3
   }
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import makeBlockie from 'ethereum-blockies-base64'
 import { sliceAddress } from '@lukso/web-components/tools'
+import makeBlockie from 'ethereum-blockies-base64'
 
 type Props = {
   asset?: Asset

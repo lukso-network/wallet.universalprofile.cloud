@@ -28,7 +28,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on-first-retry'
   },
   timeout: 10000,
 
@@ -44,15 +44,15 @@ export default defineConfig({
             '--font-render-hinting=none',
             '--disable-skia-runtime-opts',
             '--disable-font-subpixel-positioning',
-            '--disable-lcd-text',
-          ],
+            '--disable-lcd-text'
+          ]
         },
         viewport: {
           width: 1512,
-          height: 869,
-        },
-      },
-    },
+          height: 869
+        }
+      }
+    }
 
     // {
     //   name: 'firefox',
@@ -89,7 +89,7 @@ export default defineConfig({
   webServer: {
     command: 'yarn dev',
     url: 'http://localhost:3000/',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI
   },
 
   expect: {
@@ -97,7 +97,7 @@ export default defineConfig({
     toHaveScreenshot: {
       threshold: process.env.CI ? 0.7 : 0.2,
       maxDiffPixels: 400,
-      maxDiffPixelRatio: 0.2,
-    },
-  },
+      maxDiffPixelRatio: 0.2
+    }
+  }
 })

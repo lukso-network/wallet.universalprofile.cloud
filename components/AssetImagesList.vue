@@ -16,9 +16,9 @@ const handlePreviewImage = (image: Image[]) => {
   showModal({
     template: 'AssetImage',
     data: {
-      asset: [image[0]],
+      asset: [image[0]]
     },
-    size: 'auto',
+    size: 'auto'
   })
 }
 </script>

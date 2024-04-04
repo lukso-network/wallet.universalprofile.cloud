@@ -12,7 +12,7 @@ const extensionStoreData = () => {
 
   return {
     icon,
-    url,
+    url
   }
 }
 

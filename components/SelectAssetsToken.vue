@@ -10,9 +10,7 @@ type Props = {
   isSelected?: boolean
 }
 
-type Emits = {
-  (event: 'on-select', asset: Asset | null): void
-}
+type Emits = (event: 'on-select', asset: Asset | null) => void
 
 const props = defineProps<Props>()
 const emits = defineEmits<Emits>()

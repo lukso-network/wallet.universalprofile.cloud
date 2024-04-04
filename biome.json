@@ -5,7 +5,25 @@
     "rules": {
       "suspicious": {
         "noExplicitAny": "off"
+      },
+      "style": {
+        "useImportType": "off",
+        "useNodejsImportProtocol": "off"
       }
     }
+  },
+  "formatter": {
+    "indentWidth": 2,
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "quoteStyle": "single",
+      "trailingComma": "none"
+    }
+  },
+  "files": {
+    "ignore": ["node_modules", "dist", ".output", "contracts", ".nuxt"]
   }
 }

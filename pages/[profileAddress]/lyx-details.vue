@@ -12,12 +12,12 @@ const profileImage = useProfileAvatar(connectedProfile, 40)
 const links: LinkMetadata[] = [
   {
     title: 'www.lukso.network',
-    url: 'https://lukso.network/',
+    url: 'https://lukso.network/'
   },
   {
     title: 'www.docs.lukso.tech',
-    url: 'https://docs.lukso.tech/',
-  },
+    url: 'https://docs.lukso.tech/'
+  }
 ]
 
 const handleSendLyx = () => {

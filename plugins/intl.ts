@@ -11,7 +11,7 @@ export default defineNuxtPlugin(() => {
     formatNumber,
     formatDate,
     formatTime,
-    formatCurrency,
+    formatCurrency
   } = useIntl()
 
   return {
@@ -23,7 +23,7 @@ export default defineNuxtPlugin(() => {
       formatDate: (date?: string | number | Date) => formatDate(date),
       formatTime: (date?: string | number | Date) => formatTime(date),
       formatCurrency: (value: string, symbol: string) =>
-        formatCurrency(value, symbol),
-    },
+        formatCurrency(value, symbol)
+    }
   }
 })

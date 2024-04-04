@@ -1,7 +1,7 @@
 import type {
   LSP4_TOKEN_TYPES,
   LSP8_TOKEN_ID_FORMAT,
-  LinkMetadata,
+  LinkMetadata
 } from '@lukso/lsp-smart-contracts'
 
 // TODO use type from lsp package when it's released

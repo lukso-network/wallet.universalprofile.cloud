@@ -5,7 +5,7 @@ const {
   receiver,
   receiverError,
   amount,
-  onSend,
+  onSend
 } = storeToRefs(useSendStore())
 const { isLoadedApp } = storeToRefs(useAppStore())
 const { showModal } = useModal()
@@ -25,12 +25,12 @@ const backgroundImage = useProfileBackground(connectedProfile, 450)
 const avatarImage = useProfileAvatar(connectedProfile, 80)
 
 const handleSend = () => {
-  onSend.value && onSend.value()
+  onSend?.value?.()
 }
 
 const handleSelectAssets = () => {
   showModal({
-    template: 'SelectAssets',
+    template: 'SelectAssets'
   })
 }
 
@@ -65,7 +65,7 @@ const checkBalance = () => {
   }
 
   showModal({
-    message: formatMessage('no_asset_balance'),
+    message: formatMessage('no_asset_balance')
   })
 }
 

@@ -29,7 +29,7 @@ export const getErrorMessage = (error: unknown) => {
       case -32601:
       case -32602:
         return formatMessage('error_same_address', {
-          lyxSymbol: currentNetwork.token.symbol,
+          lyxSymbol: currentNetwork.token.symbol
         })
       default:
         break

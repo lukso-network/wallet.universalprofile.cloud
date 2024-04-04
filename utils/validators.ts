@@ -34,7 +34,9 @@ export function assertAddresses(
 ): asserts value is Address[] {
   assertArray(value, name)
 
-  return value.forEach(value => assertAddress(value, name))
+  for (const address of value) {
+    assertAddress(address, name)
+  }
 }
 
 /**

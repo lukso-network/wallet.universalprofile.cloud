@@ -48,7 +48,7 @@ export const EXTENSION_STORE_LINKS = {
   edge: '',
   opera: '',
   safari: '',
-  firefox: '',
+  firefox: ''
 }
 
 // search params

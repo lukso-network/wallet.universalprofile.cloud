@@ -1,6 +1,6 @@
 import { type TestInfo, test as base } from '@playwright/test'
 
-interface TestFixtures {}
+type TestFixtures = Record<string, unknown>
 
 export const test = base.extend<TestFixtures>({
   // overrides default page fixture
@@ -8,7 +8,7 @@ export const test = base.extend<TestFixtures>({
     const originalSnapshotPath = testInfo.snapshotPath
 
     // fixes fail test issue with snapshot files that contain platform name (ie. OSX adds "darwin" while CI uses "linux")
-    testInfo.snapshotPath = snapshotName => {
+    testInfo.snapshotPath = (snapshotName) => {
       const result = originalSnapshotPath
         .apply(testInfo, [snapshotName])
         .replace('.txt', '.json')
@@ -20,5 +20,5 @@ export const test = base.extend<TestFixtures>({
     }
 
     await use(page)
-  },
+  }
 })

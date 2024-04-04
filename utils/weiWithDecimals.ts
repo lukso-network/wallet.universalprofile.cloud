@@ -31,7 +31,7 @@ const UNIT_BASED_ON_DECIMALS_MAP: Units = {
   21: 'kether',
   24: 'mether',
   27: 'gether',
-  30: 'tether',
+  30: 'tether'
 }
 
 /**

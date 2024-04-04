@@ -28,7 +28,7 @@ const connect = async () => {
 
     return showModal({
       title: formatMessage('web3_connect_error_title'),
-      message: formatMessage('web3_connect_no_extension'),
+      message: formatMessage('web3_connect_no_extension')
     })
   }
 
@@ -47,7 +47,7 @@ const connect = async () => {
 
     showModal({
       title: formatMessage('web3_connect_error_title'),
-      message: getErrorMessage(error),
+      message: getErrorMessage(error)
     })
   } finally {
     isConnecting.value = false
@@ -105,8 +105,8 @@ const handleChainChanged = (network: { chainId: string }) => {
       template: 'SwitchApplicationNetwork',
       data: {
         name: getNetwork.name,
-        chainId: network.chainId,
-      },
+        chainId: network.chainId
+      }
     })
   }
 }
@@ -133,6 +133,6 @@ export const useBrowserExtension = () => {
     disconnect,
     addProviderEvents,
     removeProviderEvents,
-    isUniversalProfileExtension,
+    isUniversalProfileExtension
   }
 }

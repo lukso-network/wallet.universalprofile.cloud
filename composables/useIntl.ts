@@ -1,8 +1,8 @@
 import {
-  createIntl,
   type FormatNumberOptions,
   type IntlConfig,
   type IntlShape,
+  createIntl
 } from '@formatjs/intl'
 import { fromWei } from 'web3-utils'
 
@@ -13,12 +13,12 @@ const messages = defaultMessages as unknown as Record<string, string>
 
 // For more options check https://github.com/formatjs/formatjs/blob/main/packages/ecma402-abstract/types/number.ts#L38-L45
 const formatNumberDefaultOptions = {
-  maximumFractionDigits: 18,
+  maximumFractionDigits: 18
 }
 
 export const defaultConfig: IntlConfig = {
   locale: 'en-US',
-  messages,
+  messages
 }
 
 /**
@@ -43,9 +43,8 @@ const setupIntl = (config: IntlConfig) => {
 const formatMessage = (key: string, options?: Record<string, string>) => {
   if (options) {
     return intl.value?.formatMessage({ id: key }, options) || ''
-  } else {
-    return intl.value?.formatMessage({ id: key }) || ''
   }
+  return intl.value?.formatMessage({ id: key }) || ''
 }
 
 /**
@@ -62,7 +61,7 @@ const formatNumber = (value: number, options: FormatNumberOptions = {}) => {
 
   const mergedOptions = {
     ...formatNumberDefaultOptions,
-    ...options,
+    ...options
   }
 
   return intl.value?.formatNumber(value, mergedOptions) || ''
@@ -103,12 +102,12 @@ const formatCurrency = (value: string, symbol: string) => {
     return ''
   }
 
-  const currencyValue = parseFloat(fromWei(value)) * currencyMultiplier
+  const currencyValue = Number.parseFloat(fromWei(value)) * currencyMultiplier
 
   return formatNumber(currencyValue, {
     maximumFractionDigits: 2,
     style: 'currency',
-    currency: currentCurrencySymbol,
+    currency: currentCurrencySymbol
   })
 }
 
@@ -119,6 +118,6 @@ export const useIntl = () => {
     formatNumber,
     formatDate,
     formatTime,
-    formatCurrency,
+    formatCurrency
   }
 }

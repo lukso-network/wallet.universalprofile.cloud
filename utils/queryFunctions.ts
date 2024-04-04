@@ -1,22 +1,22 @@
-import debug from 'debug'
-import LSP8IdentifiableDigitalAssetContract from '@lukso/lsp-smart-contracts/artifacts/LSP8IdentifiableDigitalAsset.json'
-import LSP7DigitalAssetContract from '@lukso/lsp-smart-contracts/artifacts/LSP7DigitalAsset.json'
-import LSP4DigitalAssetMetadataContract from '@lukso/lsp-smart-contracts/artifacts/LSP4DigitalAssetMetadata.json'
-import LSP4Schema from '@erc725/erc725.js/schemas/LSP4DigitalAsset.json'
-import LSP3Schema from '@erc725/erc725.js/schemas/LSP3ProfileMetadata.json'
-import LSP8Schema from '@erc725/erc725.js/schemas/LSP8IdentifiableDigitalAsset.json'
-import { RateLimiter } from 'limiter'
-import {
-  decodeData,
-  getDataFromExternalSources,
-  encodeKeyName,
-  type ERC725JSONSchema,
-} from '@erc725/erc725.js'
-import { type AbiItem, type Hex, toNumber } from 'web3-utils'
-import ABICoder from 'web3-eth-abi'
-import { INTERFACE_IDS } from '@lukso/lsp-smart-contracts'
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 import { Buffer } from 'buffer'
+import {
+  type ERC725JSONSchema,
+  decodeData,
+  encodeKeyName,
+  getDataFromExternalSources
+} from '@erc725/erc725.js'
+import LSP3Schema from '@erc725/erc725.js/schemas/LSP3ProfileMetadata.json'
+import LSP4Schema from '@erc725/erc725.js/schemas/LSP4DigitalAsset.json'
+import LSP8Schema from '@erc725/erc725.js/schemas/LSP8IdentifiableDigitalAsset.json'
+import { INTERFACE_IDS } from '@lukso/lsp-smart-contracts'
+import LSP4DigitalAssetMetadataContract from '@lukso/lsp-smart-contracts/artifacts/LSP4DigitalAssetMetadata.json'
+import LSP7DigitalAssetContract from '@lukso/lsp-smart-contracts/artifacts/LSP7DigitalAsset.json'
+import LSP8IdentifiableDigitalAssetContract from '@lukso/lsp-smart-contracts/artifacts/LSP8IdentifiableDigitalAsset.json'
+import debug from 'debug'
+import { RateLimiter } from 'limiter'
+import ABICoder from 'web3-eth-abi'
+import type { Address } from 'web3-types'
+import { type AbiItem, type Hex, toNumber } from 'web3-utils'
 
 import LSP2FetcherWithMulticall3Contract from '@/shared/abis/LSP2FetcherWithMulticall3.json'
 import { LUKSO_PROXY_API } from '@/shared/config'
@@ -71,7 +71,7 @@ type DeferCapture<T = unknown, E = unknown> = {
 
 export type QueryPromise<
   T = unknown,
-  O = QueryPromiseOptions,
+  O = QueryPromiseOptions
 > = DeferCapture<T> & O
 
 export type Multicall = {
@@ -92,10 +92,10 @@ export type Remainder = {
 function capture(): DeferCapture {
   const output: DeferCapture = {
     resolve: () => {},
-    reject: () => {},
+    reject: () => {}
   } as unknown as DeferCapture
   output.promise = new Promise((resolve, reject) => {
-    output.resolve = value => {
+    output.resolve = (value) => {
       if (output.process && value !== null) {
         try {
           const promise = output.process(value) as Promise<any>
@@ -107,7 +107,7 @@ function capture(): DeferCapture {
       }
       resolve(value)
     }
-    output.reject = error => {
+    output.reject = (error) => {
       reject(error)
     }
   })
@@ -129,12 +129,12 @@ const queryList: Array<
 export const defaultSchema: readonly ERC725JSONSchema[] = [
   ...LSP4Schema,
   ...LSP3Schema,
-  ...LSP8Schema,
+  ...LSP8Schema
 ]
 export const defaultAbi: readonly AbiItem[] = [
   ...(LSP8IdentifiableDigitalAssetContract.abi as AbiItem[]),
   ...(LSP7DigitalAssetContract.abi as AbiItem[]),
-  ...(LSP4DigitalAssetMetadataContract.abi as AbiItem[]),
+  ...(LSP4DigitalAssetMetadataContract.abi as AbiItem[])
 ]
 
 // Allow 150 requests per hour (the Twitter search limit). Also understands
@@ -158,7 +158,7 @@ async function convert<T = any>(
     const tokenId = `0x${data.slice(2).slice(40)}`
     return {
       address,
-      tokenId,
+      tokenId
     } as any
   }
   let info = decodeData(
@@ -166,8 +166,8 @@ async function convert<T = any>(
       {
         keyName: keyName as string,
         value: data,
-        dynamicKeyParts,
-      },
+        dynamicKeyParts
+      }
     ],
     overrideSchema || schema || (defaultSchema as any)
   )
@@ -208,7 +208,7 @@ let running = 0
 export enum Priorities {
   High = 100,
   Normal = 0,
-  Low = -100,
+  Low = -100
 }
 
 async function doQueries() {
@@ -272,7 +272,9 @@ async function doQueries() {
     if (queryLog.enabled) {
       queryLog(
         'doQueries',
-        `digested ${startLength - queryList.length} queries into ${queries.length} queries and ${singleCallQueries.length} single queries`,
+        `digested ${startLength - queryList.length} queries into ${
+          queries.length
+        } queries and ${singleCallQueries.length} single queries`,
         toRaw(queries),
         toRaw(singleCallQueries)
       )
@@ -317,7 +319,7 @@ async function doQueries() {
     try {
       for (const [
         address,
-        { getData, getDataForTokenId, call },
+        { getData, getDataForTokenId, call }
       ] of Object.entries(split)) {
         if (getDataForTokenId) {
           const tokenIds = getDataForTokenId.reduce(
@@ -343,7 +345,7 @@ async function doQueries() {
           for (const tokenQueries of Object.values(tokenIds)) {
             const { address } = tokenQueries[0]
             const abi = LSP4DigitalAssetMetadataContract.abi.find(
-              item =>
+              (item) =>
                 item.type === 'function' &&
                 item.name === 'getDataBatchForTokenIds'
             )
@@ -356,7 +358,7 @@ async function doQueries() {
                   ) as unknown as string,
                   tokenQueries.map(({ keyName, dynamicKeyParts }) =>
                     encodeKeyName(keyName, dynamicKeyParts)
-                  ) as unknown as string,
+                  ) as unknown as string
                 ]
               )
               multicall.push({
@@ -376,7 +378,7 @@ async function doQueries() {
                     console.error('decodeParameters', error)
                     return null
                   }
-                },
+                }
               })
             }
           }
@@ -401,7 +403,7 @@ async function doQueries() {
               [
                 plainKeys.map(({ keyName, dynamicKeyParts }) =>
                   encodeKeyName(keyName, dynamicKeyParts)
-                ),
+                )
               ] as unknown as string[]
             )
             multicall.push({
@@ -413,7 +415,7 @@ async function doQueries() {
                   return null
                 }
                 return ABICoder.decodeParameters(abi?.outputs || [], data)[0]
-              },
+              }
             })
           }
           if (arrayKeys.length > 0) {
@@ -424,7 +426,7 @@ async function doQueries() {
               )
               const call = ABICoder.encodeFunctionCall(abi as AbiItem, [
                 address,
-                encodeKeyName(keyName, dynamicKeyParts),
+                encodeKeyName(keyName, dynamicKeyParts)
               ])
               multicall.push({
                 target: '0x0000000000000000000000000000000000000000',
@@ -445,7 +447,7 @@ async function doQueries() {
                     resultsLog('array', { query, data, result })
                   }
                   return result
-                },
+                }
               })
             }
           }
@@ -454,7 +456,7 @@ async function doQueries() {
         if (call) {
           for (const query of call) {
             if (address === LSP2ContractAddress) {
-              const abi = defaultAbi.find(item => {
+              const abi = defaultAbi.find((item) => {
                 if (item.type !== 'function') {
                   return false
                 }
@@ -479,7 +481,7 @@ async function doQueries() {
                       abi?.outputs || [],
                       data
                     )[0]
-                  },
+                  }
                 })
               } else {
                 query.reject(new Error('Method not found'))
@@ -487,7 +489,7 @@ async function doQueries() {
             } else {
               const abi =
                 query.abi ||
-                defaultAbi.find(item => {
+                defaultAbi.find((item) => {
                   if (item.type !== 'function') {
                     return false
                   }
@@ -515,7 +517,7 @@ async function doQueries() {
                       (abi?.outputs || []) as any,
                       data
                     )[0]
-                  },
+                  }
                 })
               } else {
                 query.reject(new Error('Method not found'))
@@ -548,12 +550,12 @@ async function doQueries() {
                 (abi?.outputs || []) as any,
                 data
               )[0]
-            },
+            }
           })
         } else if (type === 'call') {
           const abi =
             query.abi ||
-            defaultAbi.find(item => {
+            defaultAbi.find((item) => {
               if (item.type !== 'function') {
                 return false
               }
@@ -581,7 +583,7 @@ async function doQueries() {
                   (abi?.outputs || []) as any,
                   data
                 )[0]
-              },
+              }
             })
           } else {
             query.reject(new Error('Method not found'))
@@ -598,7 +600,7 @@ async function doQueries() {
           await limiter.removeTokens(1)
           let data: any = await web3.eth.call({
             to: target,
-            data: call,
+            data: call
           })
           if (extract) {
             data = extract.call(singlecall, data)
@@ -618,7 +620,7 @@ async function doQueries() {
               `${Math.round((Date.now() - start) / 100) / 10}s`,
               {
                 query,
-                data,
+                data
               }
             )
           }
@@ -682,7 +684,7 @@ async function doQueries() {
                       if (resultsLog.enabled) {
                         resolved?.push({
                           query,
-                          error: 'not successful (assume null)',
+                          error: 'not successful (assume null)'
                         })
                       }
                       query.resolve(null)
@@ -702,7 +704,7 @@ async function doQueries() {
                       if (resultsLog.enabled) {
                         resolved?.push({
                           query,
-                          error,
+                          error
                         })
                       }
                       query.reject(error)
@@ -728,7 +730,7 @@ async function doQueries() {
                             query,
                             data: item,
                             raw: _data,
-                            items,
+                            items
                           })
                         }
                         query.resolve(item)
@@ -740,7 +742,7 @@ async function doQueries() {
                             error: 'not successful (assume null)',
                             raw: _data,
                             items,
-                            index: j,
+                            index: j
                           })
                         }
                         query.resolve(null)
@@ -753,7 +755,7 @@ async function doQueries() {
                             error,
                             raw: _data,
                             items,
-                            index: j,
+                            index: j
                           })
                         }
                         query.reject(error)
@@ -779,7 +781,7 @@ async function doQueries() {
                         schema = { ...schema, keyType: 'Singleton' }
                         query?.resolve(
                           await Promise.all(
-                            array.map(value =>
+                            array.map((value) =>
                               convert(
                                 query as QueryPromise<
                                   unknown,
@@ -807,7 +809,7 @@ async function doQueries() {
                       resolved?.push({
                         query,
                         data: item,
-                        raw: _data,
+                        raw: _data
                       })
                     }
                     query?.resolve(item)
@@ -816,7 +818,7 @@ async function doQueries() {
                     resolved?.push({
                       query,
                       error: 'not successful (assume null)',
-                      raw: _data,
+                      raw: _data
                     })
                     query?.resolve(null)
                   }
@@ -827,7 +829,7 @@ async function doQueries() {
                       resolved?.push({
                         query,
                         error,
-                        raw: _data,
+                        raw: _data
                       })
                     }
                     query?.reject(error)
@@ -857,7 +859,7 @@ async function doQueries() {
                 multicall.map(({ query, queries }) => ({
                   type: query?.type || `${queries?.[0].type} (Batch)`,
                   keyName:
-                    query?.keyName || queries?.map(({ keyName }) => keyName),
+                    query?.keyName || queries?.map(({ keyName }) => keyName)
                 }))
               )
             }
@@ -911,23 +913,23 @@ async function doQueries() {
 // TODO: import this from next release of `@lukso/lsp-smart-contracts@0.15.0
 const INTERFACE_ID_LSP7_PREVIOUS = {
   '0xb3c4928f': 'v0.14.0',
-  '0xdaa746b7': 'v0.12.0',
+  '0xdaa746b7': 'v0.12.0'
 }
 
 // TODO: import this from next release of `@lukso/lsp-smart-contracts@0.15.0
 const INTERFACE_ID_LSP8_PREVIOUS = {
   '0xecad9f75': 'v0.13.0',
-  '0x30dc5278': 'v0.12.0',
+  '0x30dc5278': 'v0.12.0'
 }
 
 const LSP7_INTERFACE_IDS = [
   INTERFACE_IDS.LSP7DigitalAsset,
-  ...Object.keys(INTERFACE_ID_LSP7_PREVIOUS),
+  ...Object.keys(INTERFACE_ID_LSP7_PREVIOUS)
 ] as `0x${string}`[]
 
 const LSP8_INTERFACE_IDS = [
   INTERFACE_IDS.LSP8IdentifiableDigitalAsset,
-  ...Object.keys(INTERFACE_ID_LSP8_PREVIOUS),
+  ...Object.keys(INTERFACE_ID_LSP8_PREVIOUS)
 ] as `0x${string}`[]
 
 export type Interface = {
@@ -938,16 +940,16 @@ export type Interface = {
 export const interfacesToCheck: Interface[] = [
   {
     interfaceId: INTERFACE_IDS.LSP0ERC725Account as `0x${string}`,
-    standard: 'LSP3Profile',
+    standard: 'LSP3Profile'
   },
-  ...LSP7_INTERFACE_IDS.map<Interface>(interfaceId => ({
+  ...LSP7_INTERFACE_IDS.map<Interface>((interfaceId) => ({
     interfaceId,
-    standard: 'LSP7DigitalAsset',
+    standard: 'LSP7DigitalAsset'
   })),
-  ...LSP8_INTERFACE_IDS.map<Interface>(interfaceId => ({
+  ...LSP8_INTERFACE_IDS.map<Interface>((interfaceId) => ({
     interfaceId,
-    standard: 'LSP8IdentifiableDigitalAsset',
-  })),
+    standard: 'LSP8IdentifiableDigitalAsset'
+  }))
 ]
 
 export function triggerQuery() {
@@ -1032,10 +1034,10 @@ export function queryCallContract<T>({
   staleTime,
   refetchInterval,
   retry,
-  process,
+  process
 }: CallContractQueryOptions): QFQueryOptions<T> {
   const methodName = method.replace(/\(.*$/, '')
-  const methodItem = (abi || defaultAbi).find(item => {
+  const methodItem = (abi || defaultAbi).find((item) => {
     if (item.type !== 'function') {
       return false
     }
@@ -1050,7 +1052,7 @@ export function queryCallContract<T>({
     chainId,
     address,
     method,
-    ...(args ? (args as unknown as unknown[]) : []),
+    ...(args ? (args as unknown as unknown[]) : [])
   ] as readonly unknown[]
   if (!methodItem) {
     console.warn(
@@ -1061,7 +1063,7 @@ export function queryCallContract<T>({
         console.error('Method not found in abi')
         return '0x' as any
       },
-      queryKey,
+      queryKey
     }
   }
   return {
@@ -1080,12 +1082,12 @@ export function queryCallContract<T>({
         method,
         args,
         queryKey,
-        process,
+        process
       })
       queryList.push(query as QueryPromise<T, QueryPromiseCallOptions>)
       triggerQuery()
       return query.promise
-    },
+    }
   }
 }
 
@@ -1114,7 +1116,7 @@ export type VerifiableURI = {
 export function queryNull(): QFQueryOptions<null> {
   return {
     queryKey: ['null'],
-    queryFn: async () => null,
+    queryFn: async () => null
   }
 }
 
@@ -1129,7 +1131,7 @@ export function queryGetData<T>({
   retry,
   aggregateLimit = MAX_AGGREGATE_COUNT,
   priority = Priorities.Normal,
-  process,
+  process
 }: GetDataQueryOptions): QFQueryOptions<T> {
   const schemaItem = (schema || defaultSchema).find(
     ({ name }) => name === keyName
@@ -1139,7 +1141,7 @@ export function queryGetData<T>({
     chainId,
     address,
     ...(tokenId ? [tokenId] : []),
-    keyName,
+    keyName
   ] as readonly unknown[]
   return {
     ...(staleTime ? { staleTime } : {}),
@@ -1157,11 +1159,11 @@ export function queryGetData<T>({
         keyName,
         schema: [schemaItem],
         queryKey,
-        process,
+        process
       })
       queryList.push(query as QueryPromise<unknown, QueryPromiseDataOptions>)
       triggerQuery()
       return query.promise as Promise<T>
-    },
+    }
   }
 }

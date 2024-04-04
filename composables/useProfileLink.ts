@@ -1,3 +1,4 @@
+import type { Address } from 'web3-types'
 import { toChecksumAddress } from 'web3-utils'
 import { isAddress } from 'web3-validator'
 
@@ -5,7 +6,7 @@ export async function resolveProfile(_address: string): Promise<ProfileLink> {
   try {
     const { resolved, link, address, checksummed } = (await fetcher({
       url: `${BASE_PROFILE_LINK_URL}/${_address}/resolve`,
-      method: 'GET',
+      method: 'GET'
     })) as ProfileLink
 
     // @ is a special character we don't want to escape
@@ -14,7 +15,7 @@ export async function resolveProfile(_address: string): Promise<ProfileLink> {
       checksummed,
       resolved,
       link: link.replace(/%40/g, '@'),
-      isResolved: true,
+      isResolved: true
     }
   } catch {
     if (!isAddress(_address)) throw new Error('Invalid address')
@@ -25,7 +26,7 @@ export async function resolveProfile(_address: string): Promise<ProfileLink> {
       checksummed: checksummed,
       resolved: _address as string,
       link: `${BASE_PROFILE_LINK_URL}/${checksummed}`,
-      isResolved: false,
+      isResolved: false
     }
   }
 }

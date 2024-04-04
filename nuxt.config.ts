@@ -1,9 +1,9 @@
-import nodePolyfills from 'rollup-plugin-polyfill-node'
-import { copyAssets } from '@lukso/web-components/tools/copy-assets'
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 // @ts-ignore
 import { assets } from '@lukso/web-components/tools/assets'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import { copyAssets } from '@lukso/web-components/tools/copy-assets'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 
 import siteMeta from './site.meta.json'
 
@@ -19,10 +19,10 @@ if (isProduction) {
 export default defineNuxtConfig({
   devtools: { enabled: !isProduction },
   app: {
-    head: siteMeta,
+    head: siteMeta
   },
   typescript: {
-    strict: true,
+    strict: true
   },
   modules: [
     '@nuxtjs/tailwindcss',
@@ -33,34 +33,34 @@ export default defineNuxtConfig({
     '@nuxtjs/algolia',
     '@pinia-orm/nuxt',
     '@nuxt/test-utils/module',
-    '@vite-pwa/nuxt',
+    '@vite-pwa/nuxt'
   ],
   ...({
     plausible: {
-      domain: 'wallet.universalprofile.cloud',
-    },
+      domain: 'wallet.universalprofile.cloud'
+    }
   } as any),
   device: {
-    refreshOnResize: true,
+    refreshOnResize: true
   },
   tailwindcss: {
     config: {
       presets: [require('./tailwind.config')],
-      content: [], // it already merges with nuxt default config https://tailwindcss.nuxt.dev/tailwind/config#merging-strategy
+      content: [] // it already merges with nuxt default config https://tailwindcss.nuxt.dev/tailwind/config#merging-strategy
     },
-    cssPath: '~/assets/styles/main.scss',
+    cssPath: '~/assets/styles/main.scss'
   },
   vite: {
     server: {
       fs: {
-        allow: ['..'],
-      },
+        allow: ['..']
+      }
     },
     plugins: [
       // ↓ Needed for development mode
       !isProduction &&
         nodePolyfills({
-          include: ['node_modules/**/*.js', /node_modules\/.vite\/.*js/],
+          include: ['node_modules/**/*.js', /node_modules\/.vite\/.*js/]
         }),
       sentryVitePlugin({
         authToken: process.env.NUXT_PUBLIC_SENTRY_AUTH_TOKEN,
@@ -68,22 +68,22 @@ export default defineNuxtConfig({
         org: 'lukso',
         project: 'wallet-universalprofile-cloud',
         sourcemaps: {
-          assets: ['./.nuxt/dist/client/**'],
+          assets: ['./.nuxt/dist/client/**']
         },
-        telemetry: false,
-      }),
+        telemetry: false
+      })
     ],
     build: {
       rollupOptions: {
         plugins: [
           // ↓ Needed for build
-          nodePolyfills(),
-        ],
+          nodePolyfills()
+        ]
       },
       commonjsOptions: {
-        transformMixedEsModules: true,
+        transformMixedEsModules: true
       },
-      sourcemap: true,
+      sourcemap: true
     },
     resolve: {
       alias: {
@@ -93,39 +93,39 @@ export default defineNuxtConfig({
         https: 'agent-base',
         zlib: 'browserify-zlib',
         util: 'util',
-        buffer: 'buffer',
-      },
+        buffer: 'buffer'
+      }
     },
     optimizeDeps: {
       esbuildOptions: {
         // Node.js global to browser globalThis
         define: {
-          global: 'globalThis',
+          global: 'globalThis'
         },
         // Enable esbuild polyfill plugins
         plugins: [
           // @ts-ignore
           NodeGlobalsPolyfillPlugin({
-            buffer: true, // fixes `Buffer is not defined` error
-          }),
-        ],
-      },
-    },
+            buffer: true // fixes `Buffer is not defined` error
+          })
+        ]
+      }
+    }
   },
   vue: {
     compilerOptions: {
       isCustomElement: (tag: string) => {
         return tag.startsWith('lukso-')
-      },
-    },
+      }
+    }
   },
   imports: {
-    dirs: ['stores/**', 'shared/**', 'utils/**', 'types/**'],
+    dirs: ['stores/**', 'shared/**', 'utils/**', 'types/**']
   },
   ssr: false,
   spaLoadingTemplate: 'public/loading-template.html',
   piniaPersistedstate: {
-    storage: 'localStorage',
+    storage: 'localStorage'
   },
   runtimeConfig: {
     public: {
@@ -133,8 +133,8 @@ export default defineNuxtConfig({
       SENTRY_DSN: process.env.NUXT_PUBLIC_SENTRY_DSN,
       SENTRY_ENVIRONMENT: process.env.NUXT_PUBLIC_SENTRY_ENVIRONMENT,
       TRANSAK_API_KEY: process.env.NUXT_PUBLIC_TRANSAK_API_KEY,
-      BUILD_VERSION: process.env.GITHUB_SHA || 'debug',
-    },
+      BUILD_VERSION: process.env.GITHUB_SHA || 'debug'
+    }
   },
   pwa: {
     strategies: 'injectManifest',
@@ -149,21 +149,21 @@ export default defineNuxtConfig({
         {
           src: '/favicon.png',
           sizes: '256x256',
-          type: 'image/png',
+          type: 'image/png'
         },
         {
           src: '/apple-touch-icon.png',
           sizes: '512x512',
           type: 'image/png',
-          purpose: 'any maskable',
-        },
-      ],
+          purpose: 'any maskable'
+        }
+      ]
     },
     injectManifest: {
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}']
     },
     client: {
-      installPrompt: true,
+      installPrompt: true
       // you don't need to include this: only for testing purposes
       // if enabling periodic sync for update use 1 hour or so (periodicSyncForUpdates: 3600)
       // periodicSyncForUpdates: 20,
@@ -176,8 +176,8 @@ export default defineNuxtConfig({
         https: 'agent-base',
         zlib: 'browserify-zlib',
         util: 'util',
-        buffer: 'buffer',
-      },
+        buffer: 'buffer'
+      }
     },
     devOptions: isProduction
       ? {}
@@ -187,7 +187,7 @@ export default defineNuxtConfig({
           suppressWarnings: true,
           navigateFallback: '/',
           navigateFallbackAllowlist: [/^\/$/],
-          type: 'module',
-        },
-  },
+          type: 'module'
+        }
+  }
 })
