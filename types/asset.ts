@@ -1,4 +1,5 @@
 import type {
+  AttributeMetadata,
   LSP4_TOKEN_TYPES,
   LSP8_TOKEN_ID_FORMAT,
   LinkMetadata,

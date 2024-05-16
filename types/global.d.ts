@@ -9,13 +9,7 @@ declare global {
     web3: any
   }
 
-  // TODO remove when LSP package is released
-  type AttributeMetadata = {
-    key: string
-    value: string
-    type: string | number | boolean
-  }
-
+  // TODO remove when LSP package is released with this changes
   type AssetMetadata = FileAsset | ContractAsset
 
   type FileAsset = {
