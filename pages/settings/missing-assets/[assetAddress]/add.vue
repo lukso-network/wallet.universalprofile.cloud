@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import UniversalProfileJson from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
-
-import type { AbiItem } from 'web3-utils'
-import type { UniversalProfile } from '@/contracts'
+import { Contract } from 'web3'
 
 const connectedProfile = useProfile().connectedProfile()
 const assetAddress = useRouter().currentRoute.value.params?.assetAddress
@@ -32,9 +30,8 @@ const handleAddAsset = async () => {
       profileAddress,
       connectedProfile.value?.receivedAssets
     )
-    const { contract } = useWeb3(PROVIDERS.INJECTED)
-    const profileContract = contract<UniversalProfile>(
-      UniversalProfileJson.abi as AbiItem[],
+    const profileContract = new Contract<typeof UniversalProfileJson.abi>(
+      UniversalProfileJson.abi,
       profileAddress
     )
     await profileContract.methods

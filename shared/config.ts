@@ -93,3 +93,6 @@ export const PROFILE_SHOWCASE_POOL_SIZE = 500
 
 // number of dApps in showcase
 export const DAPP_SHOWCASE_COUNT = 3
+
+// gas limit for sending lyx
+export const GAS_LIMIT = 200_000

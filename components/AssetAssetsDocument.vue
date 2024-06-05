@@ -6,7 +6,7 @@ type Props = {
 const props = defineProps<Props>()
 
 const handleClick = () => {
-  props.asset && 'url' in props?.asset && window.open(props.asset.url, '_blank')
+  props.asset && 'url' in props.asset && window.open(props.asset.url, '_blank')
 }
 </script>
 

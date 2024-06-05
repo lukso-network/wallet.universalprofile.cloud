@@ -1,11 +1,10 @@
 // YOU CANNOT IMPORT ANYTHING WHICH USES Buffer or so.
 
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 import { Buffer } from 'buffer'
 import debug from 'debug'
 
-import { CACHE_KEY } from '@/shared/enums'
 import { LUKSO_PROXY_API, TANSTACK_GC_TIME } from '@/shared/config'
+import { CACHE_KEY } from '@/shared/enums'
 
 const workersLog = debug('tanstack:workers')
 

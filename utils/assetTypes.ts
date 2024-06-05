@@ -1,5 +1,5 @@
 import mime from 'mime-types'
-import { isAddress } from 'web3-utils'
+import { isAddress } from 'web3-validator'
 
 const DOCUMENT_FILE_EXTENSIONS = ['doc', 'docx', 'pdf', 'txt']
 const AUDIO_FILE_EXTENSIONS = ['mp3', 'wav', 'mpga']

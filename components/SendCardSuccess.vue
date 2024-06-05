@@ -44,7 +44,7 @@ const handleOpenProfile = () => {
   <a
     v-if="transactionHash"
     class="paragraph-inter-12-medium mt-5 block text-purple-51 underline hover:text-purple-41"
-    :href="explorerTransactionUrl(transactionHash)"
+    :href="explorerTransactionUrl(transactionHash.toString())"
     target="_blank"
     >{{ $formatMessage('send_card_view_in_explorer') }}</a
   >

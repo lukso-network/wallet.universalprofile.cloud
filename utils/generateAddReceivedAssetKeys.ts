@@ -25,6 +25,7 @@ export const generateAddReceivedAssetKeys = (
     {
       keyName: 'LSP5ReceivedAssets[]',
       value: [assetAddress],
+      // @ts-ignore
       startingIndex: receivedAssetsLength,
       totalArrayLength: receivedAssetsLength + 1,
     },

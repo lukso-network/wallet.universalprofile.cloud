@@ -6,7 +6,7 @@ import type {
 export type Profile = {
   address?: Address
   name?: string
-  balance?: string
+  balance?: bigint
   links?: LinkMetadata[]
   tags?: string[]
   description?: string

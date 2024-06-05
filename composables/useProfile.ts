@@ -84,7 +84,7 @@ export const getProfile = (_profile: MaybeRef<Address | undefined>) => {
         return null
       }
       const isLoading = results.some(result => result.isLoading)
-      const balance = results[0].data as string
+      const balance = results[0].data as bigint
       const profileData = results[1].data as LSP3ProfileMetadataJSON
       const receivedAssets = results[2].data as Address[]
       const issuedAssets = results[3].data as Address[]

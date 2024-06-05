@@ -64,7 +64,7 @@ const handleBuyLyx = (event: Event) => {
               :title="
                 $formatNumber(
                   fromTokenUnitWithDecimals(
-                    viewedProfile.balance,
+                    viewedProfile.balance.toString(),
                     asset.decimals
                   )
                 )
@@ -72,7 +72,7 @@ const handleBuyLyx = (event: Event) => {
               >{{
                 $formatNumber(
                   fromTokenUnitWithDecimals(
-                    viewedProfile.balance,
+                    viewedProfile.balance.toString(),
                     asset.decimals
                   )
                 )
@@ -86,7 +86,7 @@ const handleBuyLyx = (event: Event) => {
           <div class="paragraph-inter-12-regular pb-4">
             {{
               $formatCurrency(
-                viewedProfile?.balance || '',
+                viewedProfile?.balance?.toString() || '',
                 CURRENCY_API_LYX_TOKEN_NAME
               )
             }}

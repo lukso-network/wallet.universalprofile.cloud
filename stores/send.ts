@@ -1,3 +1,5 @@
+import type { Bytes } from 'web3'
+
 type SendStatus = 'draft' | 'pending' | 'success'
 
 export const useSendStore = defineStore('send', () => {
@@ -8,7 +10,7 @@ export const useSendStore = defineStore('send', () => {
   const tempAmount = ref<string>('')
   const status = ref<SendStatus>('draft')
   const onSend = ref<() => Promise<void>>()
-  const transactionHash = ref<string>()
+  const transactionHash = ref<Bytes>()
 
   // getters
   const isDraft = computed(() => status.value === 'draft')

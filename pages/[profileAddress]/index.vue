@@ -56,7 +56,7 @@ const nftsCreated = computed(() =>
 const ownedTokensCount = computed(
   () =>
     (tokensOwned.value?.length || 0) +
-    (viewedProfile?.value?.balance !== '0' ? 1 : 0) // +1 if user has LYX token
+    (viewedProfile?.value?.balance !== 0n ? 1 : 0) // +1 if user has LYX token
 )
 
 const createdTokensCount = computed(() => tokensCreated.value?.length || 0)

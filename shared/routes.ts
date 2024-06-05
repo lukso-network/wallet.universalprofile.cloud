@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useNodejsImportProtocol: conflicts with node assert
 import assert from 'assert'
 
 export const tokenRoute = (tokenAddress: Address) => `/asset/${tokenAddress}`

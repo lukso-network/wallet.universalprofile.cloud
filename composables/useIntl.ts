@@ -103,7 +103,8 @@ const formatCurrency = (value: string, symbol: string) => {
     return ''
   }
 
-  const currencyValue = Number.parseFloat(fromWei(value)) * currencyMultiplier
+  const currencyValue =
+    Number.parseFloat(fromWei(value, 'ether')) * currencyMultiplier // TODO use BN to do calculations
 
   return formatNumber(currencyValue, {
     maximumFractionDigits: 2,

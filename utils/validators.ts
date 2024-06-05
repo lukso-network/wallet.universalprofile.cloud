@@ -1,5 +1,4 @@
-import web3utils from 'web3-utils'
-const { isAddress } = web3utils // need to import like this due to CommonJS module import issue
+import { isAddress } from 'web3-validator'
 
 /**
  * Ensures that the given value is an address,
@@ -34,7 +33,9 @@ export function assertAddresses(
 ): asserts value is Address[] {
   assertArray(value, name)
 
-  return value.forEach(value => assertAddress(value, name))
+  for (const address of value) {
+    assertAddress(address, name)
+  }
 }
 
 /**

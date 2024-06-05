@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isAddress } from 'web3-utils'
+import { isAddress } from 'web3-validator'
 
 import type { SearchProfileResult } from '@lukso/web-components'
 

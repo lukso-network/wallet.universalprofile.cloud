@@ -13,12 +13,12 @@ type OperaWindow = Window & {
  */
 
 export default defineNuxtPlugin(async (nuxtApp: NuxtApp) => {
-  const operaWindow = window as OperaWindow
+  const operaWindow = globalThis.window as OperaWindow
 
   if (nuxtApp?.$device) {
     ;(nuxtApp.$device as DeviceExtended).isOpera =
-      (!!operaWindow.opr && !!operaWindow.opr.addons) ||
-      !!operaWindow.opera ||
-      navigator.userAgent.indexOf(' OPR/') >= 0
+      (!!operaWindow?.opr && !!operaWindow?.opr?.addons) ||
+      !!operaWindow?.opera ||
+      globalThis?.navigator?.userAgent.indexOf(' OPR/') >= 0
   }
 })
