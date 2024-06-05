@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import LSP7Mintable from '@lukso/lsp-smart-contracts/artifacts/LSP7Mintable.json'
 import LSP8Mintable from '@lukso/lsp-smart-contracts/artifacts/LSP8Mintable.json'
-import { toWei } from 'web3-utils'
+import { numberToHex, toWei } from 'web3-utils'
 
 import type { Transaction } from 'web3'
 
@@ -16,7 +16,7 @@ const {
 const { isLoadedApp } = storeToRefs(useAppStore())
 const { setStatus, clearSend } = useSendStore()
 const { showModal } = useModal()
-const { sendTransaction, isEoA, contract } = useWeb3(PROVIDERS.INJECTED)
+const { isEoA, contract } = useWeb3(PROVIDERS.INJECTED)
 const amount = computed(() => useRouter().currentRoute.value.query.amount)
 const assetAddress = computed(() => useRouter().currentRoute.value.query.asset)
 const tokenId = computed(() => useRouter().currentRoute.value.query.tokenId)
@@ -61,11 +61,15 @@ const handleSend = async () => {
       const transaction = {
         from: connectedProfile.value?.address,
         to: receiver.value?.address as unknown as string,
-        value: toWei(sendAmount.value || '0', 'ether'),
-        gasLimit: GAS_LIMIT,
+        value: numberToHex(toWei(sendAmount.value || '0', 'ether')),
+        // gasLimit: numberToHex(GAS_LIMIT),
       } as Transaction
-      transactionsReceipt = await sendTransaction(transaction)
-      transactionHash.value = transactionsReceipt.transactionHash
+      // transactionsReceipt = await sendTransaction(transaction) // TODO since we use new web3 in dApp it uses eth_call instead so we need to use raw request method
+      transactionsReceipt = await window.lukso.request({
+        method: 'eth_sendTransaction',
+        params: [transaction],
+      })
+      transactionHash.value = transactionsReceipt
     } else {
       // custom token transfer
       switch (sendAsset.value?.standard) {
