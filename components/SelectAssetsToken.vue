@@ -10,7 +10,7 @@ type Props = {
   isSelected?: boolean
 }
 
-type Emits = (event: 'on-select', asset: Asset | null) => void
+type Emits = (event: 'on-select', asset?: Asset | null) => void
 
 const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
@@ -46,6 +46,11 @@ const assetTokenId = computed(() => {
           :profile-address="asset?.address"
           has-identicon
           :is-square="hasSquareIcon ? true : undefined"
+          :placeholder="
+            isCollectible(token)
+              ? undefined
+              : '/assets/images/token-default.svg'
+          "
         ></lukso-profile>
       </div>
     </div>
@@ -66,11 +71,11 @@ const assetTokenId = computed(() => {
             {{ $formatMessage('token_owned') }}
             {{ assetTokenId }}
           </span>
-          <span v-else-if="token?.balance">
+          <span v-else-if="hasBalance(token)">
             {{ $formatMessage('token_owned') }}
             {{
               $formatNumber(
-                fromTokenUnitWithDecimals(token.balance, token.decimals)
+                fromTokenUnitWithDecimals(getBalance(token), token?.decimals)
               )
             }}
           </span>

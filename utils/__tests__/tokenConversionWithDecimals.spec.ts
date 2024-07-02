@@ -25,6 +25,14 @@ describe('fromTokenUnitWithDecimals', () => {
     const result = fromTokenUnitWithDecimals(value, 2)
     expect(result).toEqual(expected)
   })
+
+  it('should return 0 when no value is invalid', () => {
+    expect(fromTokenUnitWithDecimals()).toEqual('0')
+    // @ts-expect-error
+    expect(fromTokenUnitWithDecimals(null)).toEqual('0')
+    // @ts-expect-error
+    expect(fromTokenUnitWithDecimals({})).toEqual('0')
+  })
 })
 
 describe('toTokenUnitWithDecimals', () => {

@@ -8,7 +8,11 @@ import BigNumber from 'bignumber.js'
  * @param decimals - decimals
  * @returns
  */
-export const fromTokenUnitWithDecimals = (value: string, decimals = 18) => {
+export const fromTokenUnitWithDecimals = (value?: string, decimals = 18) => {
+  if (!value || typeof value !== 'string') {
+    return '0'
+  }
+
   const mintValueBN = new BigNumber(value)
   const divValue = new BigNumber('10').exponentiatedBy(decimals.toString())
 

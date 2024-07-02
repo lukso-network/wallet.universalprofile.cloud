@@ -22,11 +22,7 @@ watch(
       return window.open(explorerContractUrl(asset.address), '_blank')
     }
 
-    if (isCollectible(asset) && asset?.tokenId) {
-      navigateTo(nftRoute(asset.address as Address, asset.tokenId))
-    } else {
-      navigateTo(tokenRoute(asset.address as Address))
-    }
+    navigateTo(assetRoute(asset.address, asset.tokenId))
   }
 )
 </script>

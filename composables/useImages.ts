@@ -71,7 +71,7 @@ export const useAssetImage = (
     }
 
     // force flag to use icon image
-    if (useIcon) {
+    if (useIcon && currentIcon.value?.url) {
       return currentIcon.value
     }
 

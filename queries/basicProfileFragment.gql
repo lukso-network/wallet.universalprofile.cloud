@@ -1,0 +1,15 @@
+fragment basicProfile on Profile {
+  name
+  id
+  backgroundImages(order_by: { width: desc }, limit: 1) {
+    url
+    height
+    width
+  }
+  profileImages(order_by: { width: desc }, limit: 1) {
+    width
+    url
+    height
+  }
+  blockNumber
+}

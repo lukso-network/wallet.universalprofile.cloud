@@ -1,0 +1,16 @@
+query profileShowcase {
+  profiles: Profile(
+    limit: 500
+    where: {
+      _and: [
+        { profileImages: { url: { _is_null: false } } }
+        { backgroundImages: { url: { _is_null: false } } }
+        { name: { _is_null: false } }
+        { name: { _neq: "" } }
+      ]
+    }
+    order_by: { blockNumber: desc }
+  ) {
+    ...basicProfile
+  }
+}

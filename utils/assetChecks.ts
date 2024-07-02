@@ -70,3 +70,31 @@ export const isAsset = (asset?: Asset | null) =>
  */
 export const isCollection = (asset?: Asset | null) =>
   isLsp8(asset) && !!asset?.tokenIdsData?.length
+
+/**
+ * Check if passed asset has balance
+ *
+ * @param asset
+ * @returns
+ */
+export const hasBalance = (asset?: Asset | Profile | null) =>
+  !!asset?.balance && asset?.balance !== '0'
+
+/**
+ * Get asset balance
+ *
+ * @param asset
+ * @returns
+ */
+export const getBalance = (asset?: Asset | Profile | null) =>
+  asset?.balance || '0'
+
+/**
+ * Check if passed asset is supported
+ * Currently supported assets are: LSP7, LSP8 and LYX (native)
+ *
+ * @param asset
+ * @returns
+ */
+export const isSupportedAsset = (asset?: Asset | null) =>
+  isLsp7(asset) || isLsp8(asset) || isLyx(asset)

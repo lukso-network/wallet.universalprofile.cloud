@@ -1,0 +1,127 @@
+query aggregates($address: String!) {
+  Profile(where: { id: { _ilike: $address } }) {
+    # count all LSP7/LSP8 assets that has a balance on the profile
+    ownedAssets: holds_aggregate(
+      where: {
+        _or: [
+          { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+          { baseAsset: { standard: { _eq: "LSP7DigitalAsset" } } }
+          { baseAsset: { standard: { _eq: "LSP8IdentifiableDigitalAsset" } } }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    # count all LSP7 assets that are tokens that has a balance on the profile
+    # by token we understand LSP7 with lsp4TokenType = 1,
+    # we also consider null since it might be not set
+    ownedTokens: holds_aggregate(
+      where: {
+        _or: [
+          {
+            _and: [
+              { asset: { lsp4TokenType: { _eq: 0 } } }
+              { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+            ]
+          }
+          {
+            _and: [
+              { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+              { asset: { lsp4TokenType: { _is_null: true } } }
+            ]
+          }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    # count all collectibles that has a balance on the profile
+    # by collectible we understand LSP7 with lsp4TokenType=1 or LSP8
+    ownedCollectibles: holds_aggregate(
+      where: {
+        _or: [
+          {
+            _and: [
+              { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+              { asset: { lsp4TokenType: { _eq: 1 } } }
+            ]
+          }
+          { baseAsset: { standard: { _eq: "LSP8IdentifiableDigitalAsset" } } }
+        ]
+      }
+      distinct_on: baseAsset_id
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    # --------------------------------------------------------------
+
+    # count all LSP7/LSP8 assets that has been issued by the profile
+    issuedAssets: lsp12IssuedAssets_aggregate(
+      where: {
+        _or: [
+          { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+          { asset: { standard: { _eq: "LSP8IdentifiableDigitalAsset" } } }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    # count all LSP7 assets assets that are tokens that has been issued by the profile
+    # by token we understand LSP7 with lsp4TokenType = 1,
+    # we also consider null since it might be not set
+    issuedTokens: lsp12IssuedAssets_aggregate(
+      where: {
+        _or: [
+          {
+            _and: [
+              { asset: { lsp4TokenType: { _eq: 0 } } }
+              { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+            ]
+          }
+          {
+            _and: [
+              { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+              { asset: { lsp4TokenType: { _is_null: true } } }
+            ]
+          }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+
+    # count all collectibles that has been issued by the profile
+    # by collectible we understand LSP7 with lsp4TokenType=1 or LSP8 with lsp4TokenType=1|2
+    issuedCollectibles: lsp12IssuedAssets_aggregate(
+      where: {
+        _or: [
+          {
+            _and: [
+              { asset: { standard: { _eq: "LSP7DigitalAsset" } } }
+              { asset: { lsp4TokenType: { _eq: 1 } } }
+            ]
+          }
+          { asset: { standard: { _eq: "LSP8IdentifiableDigitalAsset" } } }
+        ]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+}

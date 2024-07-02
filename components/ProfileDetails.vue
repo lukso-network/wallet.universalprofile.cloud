@@ -51,7 +51,6 @@ const hasTags = computed(
           :href="link.url"
           is-link
           variant="secondary"
-          class="transition hover:opacity-70"
           is-full-width
         >
           <lukso-icon

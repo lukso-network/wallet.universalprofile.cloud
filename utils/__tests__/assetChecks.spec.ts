@@ -2,12 +2,15 @@ import { describe, expect, test } from 'vitest'
 
 import { LSP4_TOKEN_TYPES } from '@lukso/lsp-smart-contracts'
 import {
+  getBalance,
+  hasBalance,
   hasTokenId,
   isCollectible,
   isCollection,
   isLsp7,
   isLsp8,
   isLyx,
+  isSupportedAsset,
   isToken,
 } from '../assetChecks'
 
@@ -217,5 +220,106 @@ describe('isCollection', () => {
       } as Asset)
     ).toBe(false)
     expect(hasTokenId({} as Asset)).toBe(false)
+  })
+})
+
+describe('hasBalance', () => {
+  test('should return true when asset has a balance', () => {
+    const assetWithBalance = {
+      balance: '100',
+    } as Asset
+
+    expect(hasBalance(assetWithBalance)).toBe(true)
+  })
+
+  test('should return false when asset has no balance', () => {
+    const assetWithoutBalance = {
+      balance: '0',
+    } as Asset
+
+    expect(hasBalance(assetWithoutBalance)).toBe(false)
+  })
+
+  test('should return false when asset has no balance property', () => {
+    const assetWithoutBalanceProperty = {} as Asset
+
+    expect(hasBalance(assetWithoutBalanceProperty)).toBe(false)
+  })
+
+  test('should return false when asset is null', () => {
+    const nullAsset = null as unknown as Asset
+
+    expect(hasBalance(nullAsset)).toBe(false)
+  })
+
+  test('should return false when asset is undefined', () => {
+    const undefinedAsset = undefined as unknown as Asset
+
+    expect(hasBalance(undefinedAsset)).toBe(false)
+  })
+})
+
+describe('getBalance', () => {
+  test('should return the asset balance if it exists', () => {
+    const assetWithBalance = {
+      balance: '100',
+    } as Asset
+
+    expect(getBalance(assetWithBalance)).toBe('100')
+  })
+
+  test('should return 0 if the asset balance is not provided', () => {
+    expect(getBalance({})).toBe('0')
+    expect(getBalance({ balance: undefined })).toBe('0')
+    // @ts-expect-error
+    expect(getBalance({ balance: null })).toBe('0')
+  })
+
+  test('should return 0 if the asset balance is 0', () => {
+    const assetWithZeroBalance = {
+      balance: '0',
+    } as Asset
+
+    expect(getBalance(assetWithZeroBalance)).toBe('0')
+  })
+
+  test('should return 0 if the asset is null', () => {
+    const nullAsset = null as unknown as Asset
+
+    expect(getBalance(nullAsset)).toBe('0')
+  })
+
+  test('should return 0 if the asset is undefined', () => {
+    const undefinedAsset = undefined as unknown as Asset
+
+    expect(getBalance(undefinedAsset)).toBe('0')
+  })
+})
+
+describe('isSupportedAsset', () => {
+  test('should return true for LSP7 asset', () => {
+    const lsp7Asset = { standard: STANDARDS.LSP7 } as Asset
+    expect(isSupportedAsset(lsp7Asset)).toBe(true)
+  })
+
+  test('should return true for LSP8 asset', () => {
+    const lsp8Asset = { standard: STANDARDS.LSP8 } as Asset
+    expect(isSupportedAsset(lsp8Asset)).toBe(true)
+  })
+
+  test('should return true for LYX asset', () => {
+    const lyxAsset = { isNativeToken: true } as Asset
+    expect(isSupportedAsset(lyxAsset)).toBe(true)
+  })
+
+  test('should return false for unsupported asset', () => {
+    expect(isSupportedAsset({ standard: STANDARDS.UNKNOWN })).toBe(false)
+    // @ts-expect-error
+    expect(isSupportedAsset({ standard: null })).toBe(false)
+    expect(isSupportedAsset({ standard: undefined })).toBe(false)
+    // @ts-expect-error
+    expect(isSupportedAsset({ standard: 'asdf' })).toBe(false)
+    expect(isSupportedAsset(undefined)).toBe(false)
+    expect(isSupportedAsset(null)).toBe(false)
   })
 })

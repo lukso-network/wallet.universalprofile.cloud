@@ -1,7 +1,6 @@
-import type {
-  LSP3ProfileMetadata,
-  Verification,
-} from '@lukso/lsp-smart-contracts'
+import type { ImageMetadata, LinkMetadata } from '@lukso/lsp-smart-contracts'
+
+export type Maybe<T> = NonNullable<T> | undefined | null
 
 /**
  * Check and return valid LSP3 metadata
@@ -9,17 +8,31 @@ import type {
  * @param LSP3Metadata
  * @returns
  */
-export const validateLsp3Metadata = (
-  LSP3Metadata: any
-): LSP3ProfileMetadata => {
-  const { LSP3Profile: metadata } = LSP3Metadata.value || {}
+export const validateLsp3Metadata = (metadata: unknown) => {
+  if (!metadata || typeof metadata !== 'object') {
+    return {
+      name: '',
+      description: '',
+      profileImage: [],
+      backgroundImage: [],
+      tags: [],
+      links: [],
+      avatar: [],
+    }
+  }
 
-  const profileImage = validateImages(metadata?.profileImage)
-  const backgroundImage = validateImages(metadata?.backgroundImage)
-  const name = validateName(metadata?.name)
-  const tags = validateTags(metadata?.tags)
-  const links = validateLinks(metadata?.links)
-  const description = validateDescription(metadata?.description)
+  const profileImage =
+    'profileImage' in metadata ? validateImage(metadata?.profileImage) : []
+  const backgroundImage =
+    'backgroundImage' in metadata
+      ? validateImage(metadata?.backgroundImage)
+      : []
+  const avatar = 'avatar' in metadata ? validateAssets(metadata?.avatar) : []
+  const name = 'name' in metadata ? validateName(metadata?.name) : ''
+  const tags = 'tags' in metadata ? validateTags(metadata?.tags) : []
+  const links = 'links' in metadata ? validateLinks(metadata?.links) : []
+  const description =
+    'description' in metadata ? validateDescription(metadata?.description) : ''
 
   return {
     name,
@@ -28,6 +41,7 @@ export const validateLsp3Metadata = (
     backgroundImage,
     tags,
     links,
+    avatar,
   }
 }
 
@@ -38,26 +52,22 @@ export const validateLsp3Metadata = (
  * @returns
  */
 export const validateLsp4Metadata = (
-  LSP4MetadataJSON: any
-): LSP4DigitalAssetMetadataJSON => {
-  const { LSP4Metadata: metadata } = LSP4MetadataJSON || {}
-
+  metadata: Maybe<LSP4DigitalAssetMetadata>
+): LSP4DigitalAssetMetadata => {
   const images = validateImages(metadata?.images)
   const links = validateLinks(metadata?.links)
   const assets = validateAssets(metadata?.assets)
-  const icon = validateIcon(metadata?.icon)
+  const icon = validateImage(metadata?.icon)
   const description = metadata?.description || ''
   const attributes = validateAttributes(metadata?.attributes)
 
   return {
-    LSP4Metadata: {
-      description,
-      links,
-      images,
-      assets,
-      icon,
-      attributes,
-    },
+    description,
+    links,
+    images,
+    assets,
+    icon,
+    attributes,
   }
 }
 
@@ -69,9 +79,25 @@ export const validateLsp4Metadata = (
  * @param image - image object to be validated
  * @returns - true if validation passes, false otherwise
  */
-const validateImage = (image: any) => {
-  // we are ok if there is at least url
-  return image?.url
+export const validateImage = (images: unknown): ImageMetadata[] => {
+  return (
+    (Array.isArray(images) &&
+      images?.filter(image => {
+        const imageCheck =
+          'url' in image ||
+          ('url' in image &&
+            'verification' in image &&
+            'verification.data' in image &&
+            'verification.method' in image)
+
+        if (!imageCheck) {
+          console.warn('Invalid LSP4 image metadata', image)
+        }
+
+        return image.url
+      })) ||
+    []
+  )
 }
 
 /**
@@ -80,27 +106,12 @@ const validateImage = (image: any) => {
  * @param imageCollections
  * @returns
  */
-export const validateImages = (imageCollections: any) => {
-  return (
-    imageCollections
-      ?.map((images: any[]) => {
-        if (!images?.length) {
-          return
-        }
-
-        const map = images
-          ?.map((imageSize: any) => {
-            return validateImage(imageSize) ? imageSize : undefined
-          })
-          .filter(Boolean)
-
-        if (map?.length) {
-          return map
-        }
-      })
-      .filter(Boolean) || []
-  )
-}
+export const validateImages = (imageCollections: unknown): ImageMetadata[][] =>
+  Array.isArray(imageCollections)
+    ? imageCollections
+        ?.map(images => validateImage(images))
+        .filter(array => array.length)
+    : []
 
 /**
  * Validate if the given asset object follows proper structure
@@ -108,11 +119,16 @@ export const validateImages = (imageCollections: any) => {
  * @param asset
  * @returns
  */
-export const validateAssets = (assets: any) => {
+export const validateAssets = (assets: unknown): AssetMetadata[] => {
+  if (!Array.isArray(assets) || !assets?.length) {
+    return []
+  }
+
   return (
-    assets?.filter((asset: any) => {
+    assets?.filter(asset => {
       return (
-        (asset.url && asset.fileType && asset.hash && asset.hashFunction) ||
+        'address' in asset ||
+        (asset.url && asset.fileType) ||
         (asset.url &&
           asset.fileType &&
           asset.verification &&
@@ -124,56 +140,19 @@ export const validateAssets = (assets: any) => {
 }
 
 /**
- * Validate if the given metadata object follows proper structure and contain `hash` property
- * This is legacy format still used on Testnet.
- *
- * @param getDataObject - metadata object to be validated
- * @returns - hash if validation passes, undefined otherwise
- */
-export const validateHash = (getDataObject: any) => {
-  return !!getDataObject &&
-    typeof getDataObject === 'object' &&
-    typeof getDataObject?.value === 'object' &&
-    getDataObject?.value !== null &&
-    'hash' in getDataObject.value &&
-    typeof getDataObject.value?.hash === 'string'
-    ? (getDataObject.value?.hash as string)
-    : undefined
-}
-
-/**
- * Validates if the given metadata object follows proper structure and contain `verification` property
- * This is new format used on Mainnet.
- *
- * @param getDataObject - metadata object to be validated
- * @returns - verification object if validation passes, undefined otherwise
- */
-export const validateVerification = (getDataObject: any) => {
-  return !!getDataObject &&
-    typeof getDataObject === 'object' &&
-    'value' in getDataObject &&
-    typeof getDataObject?.value === 'object' &&
-    getDataObject?.value !== null &&
-    'verification' in getDataObject.value &&
-    typeof getDataObject?.value.verification === 'object' &&
-    'data' in getDataObject.value.verification &&
-    'method' in getDataObject.value.verification
-    ? (getDataObject.value?.verification as Verification)
-    : undefined
-}
-
-/**
  * Validates the given attribute object follows proper structure
  *
  * @param attribute
  * @returns
  */
-export const validateAttributes = (attributes: any) => {
-  if (!attributes?.length) {
+export const validateAttributes = (
+  attributes: unknown
+): AttributeMetadata[] => {
+  if (!Array.isArray(attributes) || !attributes?.length) {
     return []
   }
 
-  const validateAttributes = attributes?.filter((attribute: any) => {
+  const validateAttributes = attributes?.filter(attribute => {
     return (
       attribute.key ||
       attribute.value ||
@@ -197,25 +176,13 @@ export const validateAttributes = (attributes: any) => {
  * @param link
  * @returns
  */
-export const validateLinks = (links: any) => {
+export const validateLinks = (links: unknown): LinkMetadata[] => {
   return (
-    links?.filter((link: any) => {
-      return link?.title && link?.url
-    }) || []
-  )
-}
-
-/**
- * Validates if the given icon object follows proper structure
- *
- * @param icon
- * @returns
- */
-export const validateIcon = (icon: any) => {
-  return (
-    icon?.filter((image: any) => {
-      return validateImage(image)
-    }) || []
+    (Array.isArray(links) &&
+      links?.filter(link => {
+        return link?.title && link?.url
+      })) ||
+    []
   )
 }
 
@@ -225,7 +192,7 @@ export const validateIcon = (icon: any) => {
  * @param name - name to be checked
  * @returns - validated name
  */
-export const validateName = (name: any): string => {
+export const validateName = (name: unknown): string => {
   return typeof name === 'string' ? name.toLowerCase() : ''
 }
 
@@ -235,7 +202,7 @@ export const validateName = (name: any): string => {
  * @param description - description to validate
  * @returns - validated description
  */
-export const validateDescription = (description: any): string => {
+export const validateDescription = (description: unknown): string => {
   return typeof description === 'string' ? description.slice(0, 200) : ''
 }
 
@@ -245,10 +212,12 @@ export const validateDescription = (description: any): string => {
  * @param tags
  * @returns
  */
-export const validateTags = (tags: any): string[] => {
+export const validateTags = (tags: unknown): string[] => {
   return (
-    tags?.slice(0, 3).filter((tag: string) => {
-      return typeof tag === 'string' && tag !== ''
-    }) || []
+    (Array.isArray(tags) &&
+      tags?.slice(0, 3).filter((tag: string) => {
+        return typeof tag === 'string' && tag !== ''
+      })) ||
+    []
   )
 }

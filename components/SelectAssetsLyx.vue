@@ -39,7 +39,7 @@ const token = useLyxToken()
           {{
             $formatNumber(
               fromTokenUnitWithDecimals(
-                connectedProfile?.balance?.toString() || '0',
+                getBalance(connectedProfile),
                 token.decimals
               )
             )

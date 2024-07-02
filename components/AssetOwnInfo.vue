@@ -8,7 +8,7 @@ type Props = {
   message?: string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 </script>
 
 <template>
@@ -32,10 +32,13 @@ defineProps<Props>()
         <div
           class="paragraph-inter-12-semi-bold flex flex-wrap gap-x-1 leading-15"
         >
-          <span v-if="balance">{{
-            $formatNumber(fromTokenUnitWithDecimals(balance, decimals), {
-              maximumFractionDigits: decimals,
-            })
+          <span v-if="hasBalance(props)">{{
+            $formatNumber(
+              fromTokenUnitWithDecimals(getBalance(props), decimals),
+              {
+                maximumFractionDigits: decimals,
+              }
+            )
           }}</span>
           <span v-else>0</span>
           <span class="text-neutral-60 break-word">{{ symbol }}</span>

@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AssetStandardBadge > should render LSP7 badge 1`] = `
+"<div id="test-wrapper">
+  <div class="flex whitespace-nowrap">
+    <lukso-tag size="x-small" background-color="lukso-90">LSP7</lukso-tag>
+  </div>
+</div>"
+`;
+
+exports[`AssetStandardBadge > should render LSP8 badge 1`] = `
+"<div id="test-wrapper">
+  <div class="flex whitespace-nowrap">
+    <lukso-tag size="x-small" background-color="lukso-90">LSP8</lukso-tag>
+  </div>
+</div>"
+`;
+
+exports[`AssetStandardBadge > should render collection badge 1`] = `
+"<div id="test-wrapper">
+  <div class="flex whitespace-nowrap">
+    <lukso-tag size="x-small" background-color="lukso-90">LSP8 COLLECTION</lukso-tag>
+  </div>
+</div>"
+`;
+
+exports[`AssetStandardBadge > should render loading state 1`] = `
+"<div id="test-wrapper">
+  <div class="animate-pulse rounded-4 bg-neutral-90 h-[20px] w-10"></div>
+</div>"
+`;
+
+exports[`AssetStandardBadge > should render slot content 1`] = `
+"<div id="test-wrapper">
+  <lukso-tag size="x-small" background-color="lukso-90">Slot content</lukso-tag>
+</div>"
+`;

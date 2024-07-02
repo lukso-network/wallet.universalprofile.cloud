@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const { isTestnet } = storeToRefs(useAppStore())
-const { isConnected } = storeToRefs(useAppStore())
+const { isTestnet, isConnected } = storeToRefs(useAppStore())
 const { connect, disconnect, isUniversalProfileExtension } =
   useBrowserExtension()
 

@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProfileShowcaseCardGraph > should render empty state 1`] = `
+"<div id="test-wrapper">
+  <!--v-if-->
+</div>"
+`;
+
+exports[`ProfileShowcaseCardGraph > should render profile 1`] = `
+"<div id="test-wrapper"><a href="/0x123" class="flex w-full">
+    <lukso-card variant="profile" background-url="https://example.com/background-image.jpg" profile-url="https://example.com/profile-image.jpg" shadow="small" is-hoverable="" custom-class="rounded-24" class="transition hover:scale-[1.01] active:scale-100" height="230">
+      <div slot="content" class="flex flex-col items-center px-4 pb-8 pt-1">
+        <div class="flex">
+          <lukso-username name="john doe" address="0x123" size="large" max-width="220"></lukso-username>
+        </div>
+      </div>
+    </lukso-card>
+  </a></div>"
+`;

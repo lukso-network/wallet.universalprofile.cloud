@@ -1,0 +1,46 @@
+fragment asset on Asset {
+  id # address
+  lsp4TokenName
+  lsp4TokenSymbol
+  lsp4TokenType
+  lsp8TokenIdFormat
+  decimals
+  interfaces
+  standard
+  totalSupply
+
+  # creators
+  owner {
+    ...creator
+  }
+  lsp4Creators {
+    interfaceId
+    profile {
+      ...creator
+    }
+  }
+
+  # LSP4 metadata
+  name
+  description
+  links {
+    url
+    title
+  }
+  images(order_by: { width: desc }) {
+    url
+    width
+    height
+    index
+  }
+  icons(order_by: { width: desc }) {
+    url
+    width
+    height
+  }
+  ...fileAssets
+  attributes {
+    value
+    key
+  }
+}

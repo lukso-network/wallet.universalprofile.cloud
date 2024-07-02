@@ -23,7 +23,7 @@ const { isTestnet } = storeToRefs(useAppStore())
       <div
         class="mb-20 mt-8 flex w-full flex-col items-center justify-center sm:mb-28 sm:w-1/2 lg:w-2/5"
       >
-        <AppNavbarProfileSearch class="w-full" />
+        <AppNavbarProfileSearch />
         <div
           class="paragraph-inter-14-regular mt-6 text-center text-neutral-40"
         >
@@ -33,12 +33,13 @@ const { isTestnet } = storeToRefs(useAppStore())
       <CreateProfileBox />
       <div
         class="relative grid w-full grid-cols-1 gap-12 pb-20 md:pb-0"
-        :class="{ 'md:grid-cols-1': isTestnet, 'md:grid-cols-2': !isTestnet }"
+        :class="{ 'lg:grid-cols-1': isTestnet, 'lg:grid-cols-2': !isTestnet }"
       >
         <ProfileShowcase />
         <ActivityList v-if="!isTestnet" />
       </div>
       <DappShowcase />
+      <AssetShowcase />
     </div>
   </AppPageLoader>
 </template>

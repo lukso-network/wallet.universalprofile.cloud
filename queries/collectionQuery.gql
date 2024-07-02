@@ -1,0 +1,15 @@
+query collection($address: String!, $limit: Int, $offset: Int) {
+  collection: Token(
+    where: { baseAsset_id: { _ilike: $address } }
+    limit: $limit
+    order_by: { tokenId: asc }
+    offset: $offset
+  ) {
+    ...token
+  }
+  meta: Token_aggregate(where: { baseAsset_id: { _ilike: $address } }) {
+    aggregate {
+      count
+    }
+  }
+}

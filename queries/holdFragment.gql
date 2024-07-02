@@ -1,0 +1,9 @@
+fragment hold on Hold {
+  asset {
+    ...asset
+  }
+  token {
+    ...token
+  }
+  balance
+}

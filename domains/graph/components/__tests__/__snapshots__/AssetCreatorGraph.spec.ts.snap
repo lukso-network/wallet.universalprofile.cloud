@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AssetCreatorGraph > should render empty state 1`] = `
+"<div id="test-wrapper">
+  <!--v-if-->
+</div>"
+`;
+
+exports[`AssetCreatorGraph > should render unverified creator 1`] = `
+"<div id="test-wrapper">
+  <lukso-button custom-class="px-4" variant="secondary">
+    <div class="flex w-full items-center justify-between">
+      <div class="flex items-center">
+        <lukso-profile size="x-small" profile-address="0x123" has-identicon=""></lukso-profile>
+        <lukso-username name="John Doe" address="0x123" size="small" class="pl-2" name-color="neutral-20"></lukso-username>
+      </div>
+      <div class="flex items-center">
+        <lukso-tooltip variant="danger" text="Un-verified creator" class="ml-2">
+          <lukso-icon name="cross-filled" color="red-55" secondary-color="neutral-100" size="small"></lukso-icon>
+        </lukso-tooltip>
+      </div>
+    </div>
+  </lukso-button>
+</div>"
+`;
+
+exports[`AssetCreatorGraph > should render verified creator 1`] = `
+"<div id="test-wrapper">
+  <lukso-button custom-class="px-4" variant="secondary">
+    <div class="flex w-full items-center justify-between">
+      <div class="flex items-center">
+        <lukso-profile size="x-small" profile-address="0x123" has-identicon=""></lukso-profile>
+        <lukso-username name="John Doe" address="0x123" size="small" class="pl-2" name-color="neutral-20"></lukso-username>
+      </div>
+      <div class="flex items-center">
+        <lukso-tooltip variant="success" text="Verified creator" class="ml-2">
+          <lukso-icon name="complete-filled" color="green-54" secondary-color="neutral-100" size="small"></lukso-icon>
+        </lukso-tooltip>
+      </div>
+    </div>
+  </lukso-button>
+</div>"
+`;

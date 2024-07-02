@@ -1,0 +1,37 @@
+query asset($profileAddress: String, $assetAddress: String, $tokenId: String) {
+  asset: Asset(where: { id: { _ilike: $assetAddress } }) {
+    ...asset
+  }
+
+  token: Token(
+    where: {
+      _and: [
+        { baseAsset_id: { _ilike: $assetAddress } }
+        { tokenId: { _ilike: $tokenId } }
+      ]
+    }
+  ) {
+    ...token
+  }
+
+  hold: Hold(
+    where: {
+      _and: [
+        { profile_id: { _ilike: $profileAddress } }
+        {
+          _or: [
+            { asset: { id: { _ilike: $assetAddress } } }
+            {
+              _and: [
+                { token: { baseAsset_id: { _ilike: $assetAddress } } }
+                { token: { tokenId: { _ilike: $tokenId } } }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ) {
+    balance
+  }
+}

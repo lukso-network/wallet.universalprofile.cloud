@@ -36,8 +36,8 @@ const tooltipOptions = computed(() =>
 </script>
 
 <template>
-  <div v-show="isLoaded">
-    <lukso-tag v-if="hasTokenId(asset)" is-rounded class="mb-8">
+  <template v-if="isLoaded">
+    <lukso-tag v-if="hasTokenId(asset)" is-rounded>
       <div class="flex items-center">
         <div class="paragraph-ptmono-12-bold mr-2">
           {{
@@ -58,6 +58,6 @@ const tooltipOptions = computed(() =>
         </lukso-tooltip>
       </div>
     </lukso-tag>
-  </div>
-  <AppPlaceholderLine v-show="!isLoaded" class="mb-8 h-[28px] w-1/3" />
+  </template>
+  <AppPlaceholderLine v-show="!isLoaded" class="h-[28px] w-1/3" />
 </template>

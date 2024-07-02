@@ -6,16 +6,7 @@ type Props = {
 const props = defineProps<Props>()
 
 const handleClick = () => {
-  try {
-    assertAddress(props.asset?.address)
-    if (props.asset.tokenId) {
-      navigateTo(nftRoute(props.asset.address, props.asset?.tokenId))
-    } else {
-      navigateTo(tokenRoute(props.asset.address))
-    }
-  } catch (error) {
-    console.error(error)
-  }
+  navigateTo(assetRoute(props.asset?.address, props.asset?.tokenId))
 }
 </script>
 

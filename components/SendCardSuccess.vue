@@ -7,7 +7,7 @@ const asset = useToken()(
 )
 
 const handleSendMore = () => {
-  if (!isToken(asset.value) || asset.value?.balance === '0') {
+  if (!isToken(asset.value) || hasBalance(asset.value)) {
     navigateTo({
       path: sendRoute(connectedProfile.value?.address),
     })

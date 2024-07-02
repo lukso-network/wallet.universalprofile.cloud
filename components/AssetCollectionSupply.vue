@@ -9,7 +9,7 @@ const totalSupply = computed(() => props.asset?.totalSupply)
 </script>
 
 <template>
-  <div v-if="isLoaded">
+  <template v-if="isLoaded">
     <div
       class="paragraph-ptmono-14-regular"
       v-if="totalSupply"
@@ -24,7 +24,7 @@ const totalSupply = computed(() => props.asset?.totalSupply)
         })
       }}
     </div>
-  </div>
+  </template>
   <AppPlaceholderLine
     v-else
     class="h-[20px] w-1/3"

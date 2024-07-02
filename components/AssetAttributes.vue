@@ -9,8 +9,8 @@ const attributes = computed(() => props.asset?.resolvedMetadata?.attributes)
 </script>
 
 <template>
-  <div v-if="isLoaded">
-    <div v-if="attributes?.length" class="mb-8">
+  <template v-if="isLoaded">
+    <div v-if="attributes?.length">
       <div class="heading-inter-14-bold pb-2">
         {{ $formatMessage('asset_attributes_title') }}
       </div>
@@ -27,7 +27,7 @@ const attributes = computed(() => props.asset?.resolvedMetadata?.attributes)
         </div>
       </div>
     </div>
-  </div>
+  </template>
   <AppPlaceholderSection v-else slot-class="flex gap-4">
     <AppPlaceholderLine class="h-[72px] w-[120px]" />
     <AppPlaceholderLine class="h-[72px] w-[80px]" />

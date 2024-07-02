@@ -25,8 +25,8 @@ const assetFileType = (asset: AssetMetadata) => {
 </script>
 
 <template>
-  <div v-if="isLoaded">
-    <div v-if="assets?.length" class="mb-8">
+  <template v-if="isLoaded">
+    <div v-if="assets?.length">
       <div class="heading-inter-14-bold pb-3">
         {{ $formatMessage('token_details_assets') }}
       </div>
@@ -40,7 +40,7 @@ const assetFileType = (asset: AssetMetadata) => {
         </component>
       </div>
     </div>
-  </div>
+  </template>
   <AppPlaceholderSection v-else slot-class="flex gap-4">
     <AppPlaceholderLine class="size-14" />
   </AppPlaceholderSection>

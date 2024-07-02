@@ -1,0 +1,15 @@
+fragment fileAssets on Asset {
+  assets {
+    fileType
+    url
+    contentAsset {
+      id
+    }
+    contentToken {
+      tokenId
+      baseAsset {
+        id
+      }
+    }
+  }
+}

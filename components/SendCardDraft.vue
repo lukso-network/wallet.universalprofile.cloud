@@ -3,7 +3,6 @@ const connectedProfile = useProfile().connectedProfile()
 const {
   asset: sendAsset,
   receiver,
-  receiverError,
   amount,
   onSend,
 } = storeToRefs(useSendStore())
@@ -55,7 +54,7 @@ const checkBalance = () => {
     return
   }
 
-  if (isLsp7(asset.value) && asset.value?.balance !== '0') {
+  if (isLsp7(asset.value) && hasBalance(asset.value)) {
     return
   }
 
@@ -110,6 +109,11 @@ watch(
               :profile-address="asset?.address"
               :has-identicon="isLyx(asset) ? undefined : true"
               :is-square="isCollectible(asset) ? true : undefined"
+              :placeholder="
+                isCollectible(asset)
+                  ? undefined
+                  : '/assets/images/token-default.svg'
+              "
             ></lukso-profile>
           </div>
         </div>
@@ -166,7 +170,6 @@ watch(
     <div slot="bottom" class="flex flex-col items-center p-6">
       <AppAvatar
         :is-eoa="receiver?.standard === 'EOA'"
-        :is-error="!!receiverError"
         :name="receiver?.name"
         :address="receiver?.address"
         :profile-url="receiver?.profileImage?.[0].src"
@@ -174,11 +177,7 @@ watch(
       <SendCardProfileSearch />
       <lukso-button
         class="mt-4 w-full"
-        :disabled="
-          !receiver?.address || receiverError || !Number(amount)
-            ? true
-            : undefined
-        "
+        :disabled="!receiver?.address || !Number(amount) ? true : undefined"
         @click="handleSend"
         is-full-width
         >{{

@@ -1,0 +1,19 @@
+query profileAssets($address: String!) {
+  profiles: Profile(where: { id: { _ilike: $address } }) {
+    receivedAssets {
+      asset {
+        ...asset
+      }
+    }
+
+    lsp12IssuedAssets {
+      asset {
+        ...asset
+      }
+    }
+
+    holds {
+      ...hold
+    }
+  }
+}

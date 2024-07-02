@@ -1,0 +1,5 @@
+query profile($id: String!) {
+  profile: Profile_by_pk(id: $id) {
+    ...profile
+  }
+}

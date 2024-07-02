@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AppNavbarProfileSearchGraph > should render 1`] = `
+"<div id="test-wrapper">
+  <lukso-search name="profile-search" placeholder="Search profiles" no-results-text="No profile found" is-full-width="" class="w-full"></lukso-search>
+</div>"
+`;

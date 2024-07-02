@@ -13,7 +13,7 @@ const balance = computed(() => {
   }
 
   if (isLsp7(asset.value) || isLyx(asset.value)) {
-    return asset.value?.balance || '0'
+    return getBalance(asset.value)
   }
 
   return '0'

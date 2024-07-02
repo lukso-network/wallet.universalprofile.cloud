@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AssetDescription > should render description 1`] = `
+"<div id="test-wrapper">
+  <div>
+    <div class="heading-inter-14-bold pb-3">Token Description</div>
+    <div class="paragraph-inter-12-regular whitespace-pre-line break-word">Lorem ipsum dolor sit amet</div>
+  </div>
+</div>"
+`;
+
+exports[`AssetDescription > should render for no description 1`] = `
+"<div id="test-wrapper">
+  <!--v-if-->
+</div>"
+`;
+
+exports[`AssetDescription > should render loading state 1`] = `
+"<div id="test-wrapper">
+  <div>
+    <div class="mb-3 h-[17px] w-1/2 animate-pulse rounded-4 bg-neutral-90"></div>
+    <div class="">
+      <div class="grid gap-1">
+        <div class="animate-pulse rounded-4 bg-neutral-90 h-[17px] w-1/2"></div>
+        <div class="animate-pulse rounded-4 bg-neutral-90 h-[17px] w-4/5"></div>
+        <div class="animate-pulse rounded-4 bg-neutral-90 h-[17px] w-3/5"></div>
+      </div>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`AssetDescription > should render without title 1`] = `
+"<div id="test-wrapper">
+  <div>
+    <!--v-if-->
+    <div class="paragraph-inter-12-regular whitespace-pre-line break-word">Lorem ipsum dolor sit amet</div>
+  </div>
+</div>"
+`;

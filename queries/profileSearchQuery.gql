@@ -1,0 +1,8 @@
+query profileSearch($search: String) {
+  profiles: Profile(
+    where: { _or: [{ id: { _ilike: $search } }, { name: { _ilike: $search } }] }
+    limit: 100
+  ) {
+    ...basicProfile
+  }
+}

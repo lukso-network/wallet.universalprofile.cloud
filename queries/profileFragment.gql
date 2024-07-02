@@ -1,0 +1,41 @@
+fragment profile on Profile {
+  fullName
+  description
+  name
+  id
+  standard
+  interfaces
+  blockNumber
+  links {
+    title
+    url
+  }
+  tags
+  backgroundImages(order_by: { width: desc }) {
+    url
+    height
+    width
+  }
+  profileImages(order_by: { width: desc }) {
+    width
+    url
+    height
+  }
+  receivedAssets {
+    id
+  }
+  lsp12IssuedAssets {
+    id
+  }
+  ...avatars
+  holds {
+    asset {
+      id
+    }
+    token {
+      baseAsset {
+        id
+      }
+    }
+  }
+}

@@ -19,6 +19,7 @@ import { type AbiItem, type Hex, toNumber } from 'web3-utils'
 
 import LSP2FetcherWithMulticall3Contract from '@/shared/abis/LSP2FetcherWithMulticall3.json'
 import { LUKSO_PROXY_API } from '@/shared/config'
+import { STANDARDS } from '@/shared/enums'
 
 import type { LSP2FetcherWithMulticall3 } from '@/contracts/LSP2FetcherWithMulticall3'
 import type { QueryFunction } from '@tanstack/query-core'
@@ -931,21 +932,21 @@ const LSP8_INTERFACE_IDS = [
 
 export type Interface = {
   interfaceId: `0x${string}`
-  standard: 'LSP3Profile' | 'LSP7DigitalAsset' | 'LSP8IdentifiableDigitalAsset'
+  standard: STANDARDS.LSP3 | STANDARDS.LSP7 | STANDARDS.LSP8
 }
 
 export const interfacesToCheck: Interface[] = [
   {
     interfaceId: INTERFACE_IDS.LSP0ERC725Account as `0x${string}`,
-    standard: 'LSP3Profile',
+    standard: STANDARDS.LSP3,
   },
   ...LSP7_INTERFACE_IDS.map<Interface>(interfaceId => ({
     interfaceId,
-    standard: 'LSP7DigitalAsset',
+    standard: STANDARDS.LSP7,
   })),
   ...LSP8_INTERFACE_IDS.map<Interface>(interfaceId => ({
     interfaceId,
-    standard: 'LSP8IdentifiableDigitalAsset',
+    standard: STANDARDS.LSP8,
   })),
 ]
 

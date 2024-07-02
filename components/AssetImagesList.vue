@@ -24,8 +24,8 @@ const handlePreviewImage = (image: Image[]) => {
 </script>
 
 <template>
-  <div v-if="isLoaded">
-    <div v-if="images?.length" class="mb-8">
+  <template v-if="isLoaded">
+    <div v-if="images?.length">
       <div class="heading-inter-14-bold pb-3">
         {{ $formatMessage('token_details_images') }}
       </div>
@@ -43,7 +43,7 @@ const handlePreviewImage = (image: Image[]) => {
         </div>
       </div>
     </div>
-  </div>
+  </template>
   <AppPlaceholderSection v-else slot-class="flex gap-4">
     <AppPlaceholderLine class="size-14" />
     <AppPlaceholderLine class="size-14" />

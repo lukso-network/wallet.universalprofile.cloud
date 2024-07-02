@@ -63,7 +63,7 @@ const handleBuyLyx = () => {
             viewedProfile?.address === connectedProfile?.address
           "
           :address="connectedProfile.address"
-          :balance="asset.balance"
+          :balance="getBalance(asset)"
           :symbol="asset.tokenSymbol"
           :decimals="asset.decimals"
           :profile-image-url="profileImage?.url"
@@ -76,7 +76,7 @@ const handleBuyLyx = () => {
               isConnected &&
               connectedProfile &&
               viewedProfile?.address === connectedProfile?.address &&
-              asset?.balance !== '0'
+              hasBalance(asset)
             "
             is-full-width
             variant="secondary"
@@ -98,20 +98,23 @@ const handleBuyLyx = () => {
         <div class="heading-apax-24-medium pb-2">
           {{ $formatMessage('lyx_details_title') }}
         </div>
-        <AssetTokenSupply
-          :asset="{
-            totalSupply: currentNetwork.token.supply,
-            decimals: asset?.decimals,
-          }"
-        />
-        <AssetDescription
-          :asset="{
-            resolvedMetadata: {
-              description: $formatMessage('lyx_details_description'),
-            },
-          }"
-        />
-        <AssetLinks :asset="{ resolvedMetadata: { links } }" />
+        <div class="flex flex-col gap-8">
+          <AssetTokenSupply
+            :asset="{
+              totalSupply: currentNetwork.token.supply,
+              decimals: asset?.decimals,
+            }"
+          />
+          <AssetDescription
+            :asset="{
+              resolvedMetadata: {
+                description: $formatMessage('lyx_details_description'),
+              },
+            }"
+            class="mb-8"
+          />
+          <AssetLinks :asset="{ resolvedMetadata: { links } }" class="mb-8" />
+        </div>
       </div>
     </div>
   </AppPageLoader>

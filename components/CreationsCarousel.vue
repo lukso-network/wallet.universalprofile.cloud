@@ -18,7 +18,7 @@ const handleCardClick = (swiper: Swiper) => {
   // to fix safari bug where `clickedSlide` is undefined
   const address = isSafari ? _address || activeAddress.value : _address
 
-  navigateTo(tokenRoute(address))
+  navigateTo(assetRoute(address))
 }
 
 const isLoading = computed(() => props.assets?.some(asset => asset.isLoading))
@@ -38,7 +38,7 @@ const handleInit = (swiper: Swiper) => {
 
 const handleSlideChange = (swiper: Swiper) => {
   activeIndex.value = swiper.activeIndex
-  activeAddress.value = swiper.slides[swiper.activeIndex].dataset.address as
+  activeAddress.value = swiper.slides[swiper.activeIndex]?.dataset?.address as
     | Address
     | undefined
 }

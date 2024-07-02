@@ -20,6 +20,7 @@ env:
   NUXT_PUBLIC_SENTRY_ENVIRONMENT: '${{ secrets.SENTRY_ENVIRONMENT }}'
   NUXT_PUBLIC_TRANSAK_API_KEY: '${{ secrets.TRANSAK_API_KEY }}'
   NUXT_PUBLIC_RAMP_API_KEY: '${{ secrets.RAMP_API_KEY }}'
+  GQL_HOST: '${{ secrets.GQL_HOST }}'
 
 jobs:
   test:

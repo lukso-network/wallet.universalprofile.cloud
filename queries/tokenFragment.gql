@@ -1,0 +1,55 @@
+fragment token on Token {
+  lsp4TokenName
+  lsp4TokenSymbol
+  lsp4TokenType
+  lsp8TokenIdFormat
+  tokenId
+
+  baseAsset {
+    ...asset
+  }
+
+  # creators
+  lsp4Creators {
+    interfaceId
+    profile {
+      ...creator
+    }
+  }
+
+  # LSP4 metadata
+  name
+  description
+  links {
+    url
+    title
+  }
+  images(order_by: { width: desc }) {
+    url
+    width
+    height
+    index
+  }
+  icons(order_by: { width: desc }) {
+    url
+    width
+    height
+  }
+  assets {
+    fileType
+    url
+    contentAsset {
+      id
+    }
+    contentToken {
+      tokenId
+      baseAsset {
+        id
+      }
+    }
+  }
+  attributes {
+    value
+    key
+  }
+}

@@ -15,7 +15,7 @@ const handleClose = () => {
     id="mobile-search"
     class="fixed top-0 z-[1001] w-full animate-fade-in p-4 animation-duration-200"
   >
-    <AppNavbarProfileSearch class="w-full" />
+    <AppNavbarProfileSearch />
     <div
       @click="handleClose"
       class="group absolute right-7 top-7 cursor-pointer bg-neutral-100"

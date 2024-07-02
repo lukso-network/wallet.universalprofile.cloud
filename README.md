@@ -1,6 +1,6 @@
 # 🆙 universalprofile.cloud
 
-[![Lint, Test, Build](https://github.com/lukso-network/wallet.universalprofile.cloud/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/lukso-network/wallet.universalprofile.cloud/actions/workflows/ci.yml)
+[![Lint, Test, Build](https://github.com/lukso-network/universalprofile.cloud/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/lukso-network/universalprofile.cloud/actions/workflows/ci.yml)
 
 This dApp runs on [LUKSO](https://lukso.network/) network. It allows to:
 
@@ -24,11 +24,17 @@ Branch: `main`
 
 - <https://universalprofile.cloud/>
 
+## Fetch data mode
+
+App supports data fetching through RPC or using GraphQL indexer. By default it uses Graph mode unless it's specified explicitly in env through `FETCH_DATA_PROVIDER=graph|rpc` variable. It can be also changed on per client basis using Local Storage `fetch-data-provider=graph|rpc` variable.
+
+While RPC mode is more up-to-date but this comes at the cost of loading speed. It also limits amount of available features that are not possible in this mode.
+
 ## 🔌 Network switch
 
 It is possible to pass a network in query parameter to force viewing a profile on a given network:
 
-```
+```text
 ?network=testnet
 ?network=mainnet
 ```
@@ -38,8 +44,12 @@ It is possible to pass a network in query parameter to force viewing a profile o
 At runtime we look at the Local Storage "debug" key to show various logs. The following log streams are
 available:
 
-- `dapp:asset` -> Show asset/token objects
+- `dapp:asset` -> Show asset objects
+- `dapp:token` -> Show token objects
 - `dapp:profile` -> Show profile objects
+- `dapp:generic` -> Generic logs
+- `dapp:send` -> Send logs
+- `dapp:graph` -> GraphQL logs
 - `tanstack:query` -> Show how queries as posted
 - `tanstack:results` -> Show results of queries
 

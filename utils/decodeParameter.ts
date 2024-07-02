@@ -1,7 +1,7 @@
 import ABICoder from 'web3-eth-abi'
 
 /**
- * Wrap decode parameter function into try catch block to not break app when decoding fails
+ * Wrap function into try catch block to not break app when it fails
  *
  * @param param
  * @param value

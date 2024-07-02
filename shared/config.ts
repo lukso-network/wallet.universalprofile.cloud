@@ -52,7 +52,7 @@ export const SEARCH_RESULTS_LIMIT = 100
 
 // base urls
 export const BASE_MY_UP_CLOUD_URL = 'https://my.universalprofile.cloud'
-export const BASE_DAPP_URL = 'https://wallet.universalprofile.cloud' // TODO remove subdomain after domain is switched
+export const BASE_DAPP_URL = 'https://universalprofile.cloud'
 export const BASE_PROFILE_LINK_URL = 'https://profile.link'
 export const BASE_L14_UP_CLOUD_URL = 'https://l14.universalprofile.cloud/'
 export const TXS_APP_LUKSO_PAGE_URL = 'https://txs.app/lukso'
@@ -93,3 +93,7 @@ export const PROFILE_SHOWCASE_POOL_SIZE = 500
 
 // number of dApps in showcase
 export const DAPP_SHOWCASE_COUNT = 3
+
+// asset showcase params
+export const ASSET_SHOWCASE_LIMIT = 4
+export const ASSET_SHOWCASE_POOL_SIZE = 500

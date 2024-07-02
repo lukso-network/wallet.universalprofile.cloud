@@ -1,12 +1,19 @@
 import assert from 'assert'
 
-export const tokenRoute = (assetAddress?: Address) => {
+export const assetRoute = (assetAddress?: Address, tokenId?: string) => {
   assert(assetAddress, 'Missing asset address in route')
+
+  if (tokenId) {
+    return `/asset/${assetAddress}/tokenId/${tokenId}`
+  }
+
   return `/asset/${assetAddress}`
 }
 
-export const nftRoute = (nftAddress: Address, tokenId: string) =>
-  `/asset/${nftAddress}/tokenId/${tokenId}`
+export const collectionRoute = (assetAddress?: Address) => {
+  assert(assetAddress, 'Missing asset address in route')
+  return `/collection/${assetAddress}`
+}
 
 export const gotoContract = (address: Address) => `/contract/${address}`
 

@@ -1,0 +1,6 @@
+fragment avatars on Profile {
+  avatars {
+    url
+    fileType
+  }
+}

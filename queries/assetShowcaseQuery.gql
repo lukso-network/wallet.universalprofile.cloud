@@ -1,0 +1,17 @@
+query assetShowcase {
+  assets: Asset(
+    limit: 500
+    distinct_on: lsp4TokenName
+    order_by: [{ lsp4TokenName: asc }, { blockNumber: desc }]
+    where: {
+      _and: [
+        { images: { url: { _is_null: false } } }
+        { lsp4TokenName: { _is_null: false } }
+        { lsp4TokenName: { _neq: "" } }
+        { lsp4TokenName: { _nilike: "%test%" } } # exclude assets that contain "test" in name
+      ]
+    }
+  ) {
+    ...basicAsset
+  }
+}

@@ -201,7 +201,7 @@ const browserSupportExtension = extensionStore.url !== ''
       ></lukso-icon>
     </div>
     <div slot="desktop-center" class="w-full">
-      <AppNavbarProfileSearch class="w-full" />
+      <AppNavbarProfileSearch />
     </div>
   </lukso-navbar>
   <AppNavbarMobileSearch v-if="isSearchOpen" />

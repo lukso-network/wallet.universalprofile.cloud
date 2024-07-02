@@ -1,0 +1,78 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AssetCreatorsGraph > should fallback to owner 1`] = `
+"<div id="test-wrapper">
+  <div class="animate-fade-in">
+    <div class="heading-inter-14-bold pb-2">Creators</div>
+    <div class="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
+      <lukso-button custom-class="px-4" variant="secondary">
+        <div class="flex w-full items-center justify-between">
+          <div class="flex items-center">
+            <lukso-profile size="x-small" profile-address="0x123" has-identicon=""></lukso-profile>
+            <lukso-username name="John Doe" address="0x123" size="small" class="pl-2" name-color="neutral-20"></lukso-username>
+          </div>
+          <div class="flex items-center">
+            <lukso-tooltip variant="danger" text="Un-verified creator" class="ml-2">
+              <lukso-icon name="cross-filled" color="red-55" secondary-color="neutral-100" size="small"></lukso-icon>
+            </lukso-tooltip>
+          </div>
+        </div>
+      </lukso-button>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`AssetCreatorsGraph > should render creators 1`] = `
+"<div id="test-wrapper">
+  <div class="animate-fade-in">
+    <div class="heading-inter-14-bold pb-2">Creators</div>
+    <div class="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
+      <lukso-button custom-class="px-4" variant="secondary">
+        <div class="flex w-full items-center justify-between">
+          <div class="flex items-center">
+            <lukso-profile size="x-small" profile-address="0x123" has-identicon=""></lukso-profile>
+            <lukso-username name="John Doe" address="0x123" size="small" class="pl-2" name-color="neutral-20"></lukso-username>
+          </div>
+          <div class="flex items-center">
+            <lukso-tooltip variant="danger" text="Un-verified creator" class="ml-2">
+              <lukso-icon name="cross-filled" color="red-55" secondary-color="neutral-100" size="small"></lukso-icon>
+            </lukso-tooltip>
+          </div>
+        </div>
+      </lukso-button>
+      <lukso-button custom-class="px-4" variant="secondary">
+        <div class="flex w-full items-center justify-between">
+          <div class="flex items-center">
+            <lukso-profile size="x-small" profile-address="0x789" has-identicon=""></lukso-profile>
+            <lukso-username name="Jane Doe" address="0x789" size="small" class="pl-2" name-color="neutral-20"></lukso-username>
+          </div>
+          <div class="flex items-center">
+            <lukso-tooltip variant="danger" text="Un-verified creator" class="ml-2">
+              <lukso-icon name="cross-filled" color="red-55" secondary-color="neutral-100" size="small"></lukso-icon>
+            </lukso-tooltip>
+          </div>
+        </div>
+      </lukso-button>
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`AssetCreatorsGraph > should render empty state 1`] = `
+"<div id="test-wrapper">
+  <!--v-if-->
+</div>"
+`;
+
+exports[`AssetCreatorsGraph > should render loading state 1`] = `
+"<div id="test-wrapper">
+  <div>
+    <div class="mb-3 h-[17px] w-1/2 animate-pulse rounded-4 bg-neutral-90"></div>
+    <div class="flex gap-4">
+      <div class="animate-pulse rounded-4 bg-neutral-90 h-[48px] w-[170px]"></div>
+      <div class="animate-pulse rounded-4 bg-neutral-90 h-[48px] w-[140px]"></div>
+    </div>
+  </div>
+</div>"
+`;
